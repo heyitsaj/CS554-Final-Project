@@ -39,6 +39,10 @@ export const typeDefs = `#graphql
   scalar Date
 
   type Mutation {
+    registerUser(
+      name: String!
+      password: String!
+    ): User
     addSharedImage(
       userId: String!
       content: String!
