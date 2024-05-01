@@ -18,18 +18,18 @@ export const typeDefs = `#graphql
   
   type SharedImage {
     _id: String!
-    image: Image!
+    image: ImageContent!
     comments: [String]!
   }
   
   type CreatedImage {
     _id: String!
-    image: Image!
+    image: ImageContent!
     comments: [String]!
     solvedBy: String
   }
 
-  type Image {
+  type ImageContent {
     userId: String!
     content: String!
     dateFormed: Date!
@@ -39,6 +39,10 @@ export const typeDefs = `#graphql
   scalar Date
 
   type Mutation {
+    registerUser(
+      name: String!
+      password: String!
+    ): User
     addSharedImage(
       userId: String!
       content: String!

@@ -1,0 +1,21 @@
+{
+  "name": "graphql-apollo-react",
+  "version": "1.0.0",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node ./tasks/seed.js"
+  },
+  "author": "Patrick Hill",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^4.9.3",
+    "graphql": "^16.8.1",
+    "mongodb": "^6.1.0",
+    "redis": "^4.6.13",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {},
+  "description": ""
+}
