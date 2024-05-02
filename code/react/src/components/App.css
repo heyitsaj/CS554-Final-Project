@@ -1,0 +1,30 @@
+.drawPad {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+input[type="range"][orient="vertical"] {
+  appearance: slider-vertical;
+  width: 5px;
+  height: 500px;
+  padding: 0 5px;
+  background: transparent;
+}
+/***** Track Styles *****/
+
+input[type="range"]::-webkit-slider-runnable-track {
+  background: #b3b3b3;
+  height: 0.5rem;
+}
+
+input[type="range"]::-moz-range-track {
+  background: #b3b3b3;
+  height: 0.5rem;
+}
+
+.canvas-container {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}

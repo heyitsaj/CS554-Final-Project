@@ -1,30 +1,69 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { fabric } from 'fabric';
 
 const CreatedImages = () => {
   const canvasRef = useRef(null);
   const fabricCanvas = useRef(null);
+  const [color, setColor] = useState('black');
+  const [size, setSize] = useState(5);
+
+  const handleSizeChange = (e) => {
+    setSize(parseInt(e.target.value, 10));
+  };
 
   useEffect(() => {
-    // Initialize Fabric.js canvas
-    const canvas = new fabric.Canvas(canvasRef.current, {backgroundColor: 'white'});
+    const canvas = canvasRef.current;
 
-    fabricCanvas.current = canvas;
+    const pixelRatio = window.devicePixelRatio || 1;
+    canvas.width = 750 * pixelRatio;
+    canvas.height = 750 * pixelRatio;
 
-    // Enable free drawing
-    canvas.isDrawingMode = true;
+    const fabricCanvasInstance = new fabric.Canvas(canvas, {
+      backgroundColor: 'white',
+    });
 
-    // Customize drawing settings
-    canvas.freeDrawingBrush.color = 'black'; // Set the brush color
-    canvas.freeDrawingBrush.width = 5; // Set the brush width
+    fabricCanvasInstance.setHeight(750);
+    fabricCanvasInstance.setWidth(750);
+
+    fabricCanvasInstance.setZoom(pixelRatio);
+
+    fabricCanvas.current = fabricCanvasInstance;
+
+    fabricCanvasInstance.isDrawingMode = true;
+
+    fabricCanvasInstance.freeDrawingBrush.color = color;
+    fabricCanvasInstance.freeDrawingBrush.width = size;
 
     return () => {
-      // Clean up Fabric.js resources when the component is unmounted
-      canvas.dispose();
+      fabricCanvasInstance.dispose();
     };
   }, []);
 
-  return <canvas ref={canvasRef} width={500} height={500} style={{ border: '1px solid black' }} />;
+  useEffect(() => {
+    if (fabricCanvas.current) {
+      fabricCanvas.current.freeDrawingBrush.width = size;
+    }
+  }, [size]);
+
+  return (
+    <div className="drawPad">
+      <p>Brush Size: {size} px</p>
+      <input
+        onChange={handleSizeChange}
+        type="range"
+        orient="vertical"
+        min={1}
+        max={50}
+        value={size}
+      />
+      <canvas
+        ref={canvasRef}
+        width={750}
+        height={750}
+        style={{ border: '1px solid black' }}
+      />
+    </div>
+  );
 };
 
 export default CreatedImages;

@@ -1,11 +1,11 @@
-import PageNotFound from './components/PageNotFound'
-import Home from './components/Home'
-import Navigation from './components/Navigation'
+import PageNotFound from './PageNotFound'
+import Home from './Home'
+import Navigation from './Navigation'
 
 import {Route, Link, Routes } from 'react-router-dom';
-import { useState} from 'react'
+import { useState } from 'react'
 import './App.css'
-import CreatedImages from './components/Created';
+import CreatedImages from './Created';
 
 function App() {
   return (
