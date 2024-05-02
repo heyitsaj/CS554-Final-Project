@@ -5,6 +5,7 @@ import Navigation from './components/Navigation'
 import {Route, Link, Routes } from 'react-router-dom';
 import { useState} from 'react'
 import './App.css'
+import CreatedImages from './components/Created';
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
         <Route path='/login' />
         <Route path='/logout'  />
         <Route path='/SharedImages' />
-        <Route path='/CreatedImages' />    
+        <Route path='/CreatedImages' element={<CreatedImages />}/>    
         <Route path='/Leaderboard' />
         <Route path="*" />
       </Routes>

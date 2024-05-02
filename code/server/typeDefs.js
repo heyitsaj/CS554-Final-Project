@@ -11,7 +11,7 @@ export const typeDefs = `#graphql
     _id: String!
     name: String!
     sharedImages: [SharedImage!]!
-    createdImages: [CreatedImaged!]!
+    createdImages: [CreatedImage!]!
     numOfSharedImages: Int
     numOfCreatedImages: Int
   }
