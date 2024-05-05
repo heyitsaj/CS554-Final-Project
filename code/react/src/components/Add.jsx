@@ -123,15 +123,6 @@ function Add(props) {
                                           });                           
                                       file && false && singleUpload({ variables: { file: file } })
                                     }}/>                                
-            <input
-              id='shared-image-input'
-              type="file"
-              name="image"
-              onChange={(event) => {
-                console.log(event.target.files[0]);
-                setSelectedFile(event.target.files[0]);
-              }}
-            />
           </div>
           <button className='button add-button' type='submit'>
             Upload Image
@@ -150,16 +141,6 @@ function Add(props) {
       </div>
     );
   }
-  // return (<form onSubmit={() => {console.log("Submitted")}} encType={'multipart/form-data'}>
-  //                   <input name={'document'} type={'file'} onChange={({target: { files }}) => {
-  //                       const file = files[0]
-  //                       file && singleUpload({ variables: { file: file } })
-  //                   }}/></form>);
-  // return (<form onSubmit={() => {console.log("Submitted")}} encType={'multipart/form-data'}>
-  //   <input name={'document'} type={'file'} onChange={({target: { files }}) => {
-  //     const file = files[0]
-  //     file && singleUpload({ variables: { file: file } })
-  // }}/></form>);
   return <div>{body}</div>;
 }
 

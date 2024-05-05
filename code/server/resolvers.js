@@ -62,6 +62,20 @@ export const resolvers = {
       }
 
       return sharedImage;
-    }
+    },
+    removeSharedImage: async (_, args) => {
+      const sharedImage = await sharedImagesCollection();
+      const deletedImage = await sharedImage.findOneAndDelete({_id: args._id});
+
+      if (!deletedImage) {
+        throw new GraphQLError(
+          `Could not delete shared image with _id of ${args._id}`,
+          {
+            extensions: {code: 'NOT_FOUND'}
+          }
+        );
+      }
+      return deletedImage;
+    },
  }
 };

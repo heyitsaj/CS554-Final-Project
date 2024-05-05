@@ -3,23 +3,45 @@ import React, {useState} from 'react';
 import Add from './Add'
 import {useQuery} from '@apollo/client';
 import queries from '../queries'
+import DeleteImageModal from './DeleteImageModal';
 
 export default function SharedImages() {
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  
+  const [editImage, setEditImage] = useState(null);
+  const [deleteImage, setDeleteImage] = useState(null);
 
   const {loading, error, data} = useQuery(queries.GET_SHARED_IMAGES, {
     fetchPolicy: 'cache-and-network'
   });
 
+  const handleOpenEditModal = (image) => {
+    setShowEditModal(true);
+    setEditImage(image);
+  };
+
+  const handleOpenDeleteModal = (image) => {
+    setShowDeleteModal(true);
+    setDeleteImage(image);
+  };
   const closeAddFormState = () => {
     setShowAddForm(false);
+    
+  };
+
+  const handleCloseModals = () => {
+    setShowEditModal(false);
+    setShowDeleteModal(false);
   };
   
   if (data) {
     const {sharedImages} = data;
     return (
       <div>
-        <h1>Upload and Display Image usign React Hook's</h1>
+        <h1>Welcome to the Shared Images Page!</h1>
+        <h3>Here you can upload images and edit images.</h3>
         <button className='button' onClick={() => setShowAddForm(!showAddForm)}>
             Upload Shared Image
         </button>
@@ -65,6 +87,21 @@ export default function SharedImages() {
               </div>
             );
         })}
+        {showEditModal && (
+          <EditCompanyModal
+            isOpen={showEditModal}
+            image={editImage}
+            handleClose={handleCloseModals}
+          />
+        )}
+
+        {showDeleteModal && (
+          <DeleteImageModal
+            isOpen={showDeleteModal}
+            handleClose={handleCloseModals}
+            deleteImage={deleteImage}
+          />
+        )}
       </div>
     );
   }
