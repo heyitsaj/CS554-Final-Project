@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import Add from './Add'
 import {useQuery} from '@apollo/client';
 import queries from '../queries'
-import DeleteImageModal from './DeleteImageModal';
+import DeleteSharedImageModal from './DeleteSharedImageModal';
 
 export default function SharedImages() {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -96,7 +96,7 @@ export default function SharedImages() {
         )}
 
         {showDeleteModal && (
-          <DeleteImageModal
+          <DeleteSharedImageModal
             isOpen={showDeleteModal}
             handleClose={handleCloseModals}
             deleteImage={deleteImage}

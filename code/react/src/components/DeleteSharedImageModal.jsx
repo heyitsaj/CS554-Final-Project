@@ -21,7 +21,7 @@ const customStyles = {
   }
 };
 
-function DeleteImageModal(props) {
+function DeleteSharedImageModal(props) {
   const [showDeleteModal, setShowDeleteModal] = useState(props.isOpen);
   const [image, setImage] = useState(props.deleteImage);
 
@@ -29,7 +29,7 @@ function DeleteImageModal(props) {
     update(cache) {
       cache.modify({
         fields: {
-          images(existingImages, { readField }) {
+          sharedImages(existingImages, { readField }) {
             return existingImages.filter(
               empRef => image._id !== readField('_id', empRef),
             );
@@ -103,4 +103,4 @@ function DeleteImageModal(props) {
   );
 }
 
-export default DeleteImageModal;
+export default DeleteSharedImageModal;
