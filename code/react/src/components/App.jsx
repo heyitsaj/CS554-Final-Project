@@ -6,12 +6,11 @@ import { useState } from 'react'
 import './App.css'
 import CreatedImages from './Created';
 import SignUpOrLogin from './SignUpOrLogin.jsx';
+import AboutUs from './AboutUs.jsx';
 
 function App() {
   return (
     <div className='App'>
-      <br />
-      <br />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/signUpOrLogin' element={<SignUpOrLogin />}/>
@@ -19,6 +18,7 @@ function App() {
         <Route path='/SharedImages' />
         <Route path='/CreatedImages' element={<CreatedImages />}/>    
         <Route path='/Leaderboard' />
+        <Route path='/AboutUs' element={<AboutUs />}/>
         <Route path="*" />
       </Routes>
     </div>
