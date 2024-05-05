@@ -11,48 +11,56 @@ export const typeDefs = `#graphql
     _id: String!
     name: String!
     sharedImages: [SharedImage!]!
-    createdImages: [CreatedImaged!]!
+    createdImages: [CreatedImage!]!
     numOfSharedImages: Int
     numOfCreatedImages: Int
   }
   
   type SharedImage {
     _id: String!
-    image: ImageContent!
-    comments: [String]!
+    userId: String!
+    image: String!
+    dateFormed: Date!
+    description: String
+    comments: [String]
   }
   
   type CreatedImage {
     _id: String!
-    image: ImageContent!
+    image: String!
     comments: [String]!
     solvedBy: String
-  }
-
-  type ImageContent {
     userId: String!
-    content: String!
     dateFormed: Date!
     description: String
   }
-  
+
+  type File {
+    filename: String!
+    mimetype: String!
+    encoding: String!
+  }
+
+scalar Upload
+
   scalar Date
 
   type Mutation {
+    singleUpload(file: Upload!): File!
     registerUser(
       name: String!
       password: String!
     ): User
     addSharedImage(
       userId: String!
-      content: String!
+      image: String!
       dateFormed: Date!
       description: String
     ): SharedImage
     removeSharedImage(_id: String!): SharedImage
     addCreatedImage(
       userId: String!
-      content: String!
+      image: String!
       dateFormed: Date!
       description: String
     ): CreatedImage

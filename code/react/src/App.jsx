@@ -1,6 +1,7 @@
 import PageNotFound from './components/PageNotFound'
 import Home from './components/Home'
 import Navigation from './components/Navigation'
+import SharedImages from './components/SharedImages';
 
 import {Route, Link, Routes } from 'react-router-dom';
 import { useState} from 'react'
@@ -16,7 +17,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/login' />
         <Route path='/logout'  />
-        <Route path='/SharedImages' />
+        <Route path='/SharedImages' element={<SharedImages />} />
         <Route path='/CreatedImages' />    
         <Route path='/Leaderboard' />
         <Route path="*" />
