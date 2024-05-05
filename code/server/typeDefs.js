@@ -40,7 +40,6 @@ export const typeDefs = `#graphql
     mimetype: String!
     encoding: String!
   }
-
 scalar Upload
 
   scalar Date
