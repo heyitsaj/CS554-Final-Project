@@ -10,18 +10,6 @@ function Add(props) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [base64URL, setBase64URL] = useState(null);
 
-  const [singleUpload] = useMutation(queries.UPLOAD_FILE, {
-    update(cache, {data: {singleUpload}}) {
-      const {sharedImages} = cache.readQuery({
-        query: queries.GET_SHARED_IMAGES
-      });
-      cache.writeQuery({
-        query: queries.GET_SHARED_IMAGES,
-        data: {sharedImages: [...sharedImages, singleUpload]}
-      });
-    }
-  });
-
   const [addSharedImage] = useMutation(queries.ADD_SHARED_IMAGE, {
     update(cache, {data: {addSharedImage}}) {
       const {sharedImages} = cache.readQuery({
@@ -121,7 +109,6 @@ function Add(props) {
                                           .catch(err => {
                                             console.log(err);
                                           });                           
-                                      file && false && singleUpload({ variables: { file: file } })
                                     }}/>                                
           </div>
           <button className='button add-button' type='submit'>

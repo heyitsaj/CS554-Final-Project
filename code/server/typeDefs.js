@@ -35,17 +35,9 @@ export const typeDefs = `#graphql
     description: String
   }
 
-  type File {
-    filename: String!
-    mimetype: String!
-    encoding: String!
-  }
-scalar Upload
-
   scalar Date
 
   type Mutation {
-    singleUpload(file: Upload!): File!
     registerUser(
       name: String!
       password: String!
