@@ -82,14 +82,15 @@ export const resolvers = {
       // validate arguments 
       let {dateFormed, description, image, userId} = args;
             
-      // create shared image
+      // create craeted image
       let createdImage =     {
         _id: uuid(),
         userId: userId,
         dateFormed: new Date(dateFormed),
         description: description,
         image: image,
-        comments: []
+        comments: [],
+        solvedBy: "none"
       };
 
       // add to mongo
@@ -106,12 +107,12 @@ export const resolvers = {
       return createdImage;
     },
     removeCreatedImage: async (_, args) => {
-      const sharedImage = await sharedImagesCollection();
-      const deletedImage = await sharedImage.findOneAndDelete({_id: args._id});
+      const createdImage = await createdImagesCollection();
+      const deletedImage = await createdImage.findOneAndDelete({_id: args._id});
 
       if (!deletedImage) {
         throw new GraphQLError(
-          `Could not delete shared image with _id of ${args._id}`,
+          `Could not delete created image with _id of ${args._id}`,
           {
             extensions: {code: 'NOT_FOUND'}
           }

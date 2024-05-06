@@ -21,11 +21,11 @@ const customStyles = {
   }
 };
 
-function DeleteSharedImageModal(props) {
+function DeleteCreatedImageModal(props) {
   const [showDeleteModal, setShowDeleteModal] = useState(props.isOpen);
   const [image, setImage] = useState(props.deleteImage);
 
-  const [removeImage] = useMutation(queries.DELETE_SHARED_IMAGE, {
+  const [removeImage] = useMutation(queries.DELETE_CREATED_IMAGE, {
     update(cache) {
       cache.modify({
         fields: {
@@ -96,4 +96,4 @@ function DeleteSharedImageModal(props) {
   );
 }
 
-export default DeleteSharedImageModal;
+export default DeleteCreatedImageModal;

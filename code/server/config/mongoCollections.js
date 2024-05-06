@@ -17,3 +17,4 @@ const getCollectionFn = (collection) => {
 
 /* Now, you can list your collections here: */
 export const sharedImages = getCollectionFn('sharedImages');
+export const createdImages = getCollectionFn('createdImages');

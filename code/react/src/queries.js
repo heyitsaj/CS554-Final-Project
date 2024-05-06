@@ -46,7 +46,7 @@ const DELETE_SHARED_IMAGE = gql`
 
 const GET_CREATED_IMAGES = gql`
   query {
-    createdImage {
+    createdImages {
       _id
       image
       comments
@@ -77,6 +77,7 @@ const ADD_CREATED_IMAGE = gql`
         dateFormed
         description
         comments
+        solvedBy
       }
     }
 `;

@@ -3,9 +3,9 @@ import React, {useState} from 'react';
 import Add from './Add'
 import {useQuery} from '@apollo/client';
 import queries from '../queries'
-import DeleteSharedImageModal from './DeleteCreatedImageModal';
+import DeleteCreatedImageModal from './DeleteCreatedImageModal';
 
-export default function SharedImages() {
+export default function CreatedImages() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -13,7 +13,7 @@ export default function SharedImages() {
   const [editImage, setEditImage] = useState(null);
   const [deleteImage, setDeleteImage] = useState(null);
 
-  const {loading, error, data} = useQuery(queries.GET_SHARED_IMAGES, {
+  const {loading, error, data} = useQuery(queries.GET_CREATED_IMAGES, {
     fetchPolicy: 'cache-and-network'
   });
 
@@ -37,39 +37,39 @@ export default function SharedImages() {
   };
   
   if (data) {
-    const {sharedImages} = data;
+    const {createdImages} = data;
     return (
       <div>
-        <h1>Welcome to the Shared Images Page!</h1>
+        <h1>Welcome to the Created Images Page!</h1>
         <h3>Here you can upload images and edit images.</h3>
         <button className='button' onClick={() => setShowAddForm(!showAddForm)}>
-            Upload Shared Image
+            Upload Created Image
         </button>
         {showAddForm && (
-            <Add type='sharedImage' closeAddFormState={closeAddFormState} />
+            <Add type='createdImage' closeAddFormState={closeAddFormState} />
         )}
         <br />
         <br />
   
-        {sharedImages && sharedImages.map((sharedImage) => {
+        {createdImages && createdImages.map((createdImage) => {
             return (
-              <div className='card' key={sharedImage._id}>
+              <div className='card' key={createdImage._id}>
                 <div className='card-body'>
                   <h2 className='card-title'>
                   <Link className='navlink' to={{
-                      pathname:`/SharedImages/${sharedImage._id}`
+                      pathname:`/CreatedImages/${createdImage._id}`
                   }}>       
-                  {sharedImage._id}
+                  {createdImage._id}
                   </Link>
                   </h2>
                   <h3 className='card-title'>
-                    Image: {sharedImage._id}
+                    Image: {createdImage._id}
                   </h3>
-                  <img src={sharedImage.image} alt="Shared Image" width="500" height="600"></img>
+                  <img src={createdImage.image} alt="Created Image" width="500" height="600"></img>
                   <button
                     className='button'
                     onClick={() => {
-                      handleOpenEditModal(sharedImage);
+                      handleOpenEditModal(createdImage);
                     }}
                   >
                     Edit
@@ -77,7 +77,7 @@ export default function SharedImages() {
                   <button
                     className='button'
                     onClick={() => {
-                      handleOpenDeleteModal(sharedImage);
+                      handleOpenDeleteModal(createdImage);
                     }}
                   >
                     Delete
@@ -96,7 +96,7 @@ export default function SharedImages() {
         )}
 
         {showDeleteModal && (
-          <DeleteSharedImageModal
+          <DeleteCreatedImageModal
             isOpen={showDeleteModal}
             handleClose={handleCloseModals}
             deleteImage={deleteImage}
