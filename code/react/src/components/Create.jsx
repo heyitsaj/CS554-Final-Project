@@ -9,6 +9,7 @@ import {useMutation} from '@apollo/client';
 import Navigation from './Navigation';
 
 const Create = () => {
+  const navigate = useNavigate();
   const canvasRef = useRef(null);
   const fabricCanvas = useRef(null);
   const [color, setColor] = useState('black');
@@ -66,13 +67,15 @@ const Create = () => {
         description: description
       }
     });
-
+    navigate('/ShowCreatedImages')
   }
 
   const handleSizeChange = (e) => {
-    setSize(parseInt(e.target.value, 10));
+    setSize(parseInt(e.target.value.toString(), 10));
   };
-
+  const handleColorChange = (e) => {
+    setColor(e.target.value)
+  }
   useEffect(() => {
     const canvas = canvasRef.current;
 
@@ -129,6 +132,11 @@ const Create = () => {
       fabricCanvas.current.freeDrawingBrush.width = size;
     }
   }, [size]);
+  useEffect(() => {
+    if (fabricCanvas.current) {
+      fabricCanvas.current.freeDrawingBrush.color = color;
+    }
+  }, [color]);
 
   return (
 
@@ -162,6 +170,45 @@ const Create = () => {
               <button type="submit">Submit Pictogram!</button>
             </label>
           </form>
+
+         <div className="colorSelect" onClick={handleColorChange}>
+            <label htmlFor='red'>
+              <input type="radio" id='red' name="color" value="red" hidden />
+              <div className="colorBox" style={{ background: 'red', height: '4vh', width: '4vw', border: "1px solid black"  }} data-color="red"></div>
+            </label>
+            <label htmlFor='orange'>
+              <input type="radio" id='orange' name="color" value="orange" hidden />
+              <div className="colorBox" style={{ background: 'orange', height: '4vh', width: '4vw', border: "1px solid black"   }} data-color="orange"></div>
+            </label>
+            <label htmlFor='yellow'>
+              <input type="radio" id='yellow' name="color" value="yellow" hidden />
+              <div className="colorBox" style={{ background: 'yellow', height: '4vh', width: '4vw', border: "1px solid black"   }} data-color="yellow"></div>
+            </label>
+            <label htmlFor='green'>
+              <input type="radio" id='green' name="color" value="green" hidden />
+              <div className="colorBox" style={{ background: 'green', height: '4vh', width: '4vw', border: "1px solid black"   }} data-color="green"></div>
+            </label>
+            <label htmlFor='blue'>
+              <input type="radio" id='blue' name="color" value="blue" hidden />
+              <div className="colorBox" style={{ background: 'blue', height: '4vh', width: '4vw', border: "1px solid black"   }} data-color="blue"></div>
+            </label>
+            <label htmlFor='indigo'>
+              <input type="radio" id='indigo' name="color" value="indigo" hidden />
+              <div className="colorBox" style={{ background: 'indigo', height: '4vh', width: '4vw', border: "1px solid black"   }} data-color="indigo"></div>
+            </label>
+            <label htmlFor='violet'>
+              <input type="radio" id='violet' name="color" value="violet" hidden />
+              <div className="colorBox" style={{ background: 'violet', height: '4vh', width: '4vw', border: "1px solid black"   }} data-color="violet"></div>
+            </label>
+            <label htmlFor='black'>
+              <input type="radio" id='black' name="color" value="black" hidden />
+              <div className="colorBox" style={{ background: 'black', height: '4vh', width: '4vw', border: "1px solid black"   }} data-color="black"></div>
+            </label>
+            <label htmlFor='white'>
+              <input type="radio" id='white' name="color" value="white" hidden />
+              <div className="colorBox" style={{ background: 'white', height: '4vh', width: '4vw', border: "1px solid black"   }} data-color="white"></div>
+            </label>
+          </div>
           
           <label className="appFileInput button">
             <i className="iconEnter"></i>
