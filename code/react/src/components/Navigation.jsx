@@ -32,7 +32,6 @@ function Navigation() {
 
   return (
     <div>
-      <h1 style={{ textAlign: 'center' }}>Welcome to Pictogram!</h1>
       {user ?
        <button
          onClick={onSignOut}

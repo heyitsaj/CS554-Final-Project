@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useMutation} from '@apollo/client';
 import ReactModal from 'react-modal';
 
+
 //Import the file where my query constants are defined
 import queries from '../queries';
 

@@ -116,7 +116,7 @@ const Create = () => {
 
           img.scale(scale / pixelRatio);
 
-          fabricCanvasInstance.add(img).setActiveObject(img).renderAll();
+          fabricCanvasInstance.add(img).renderAll();
         }
       };
       reader.readAsDataURL(e.target.files[0]);
