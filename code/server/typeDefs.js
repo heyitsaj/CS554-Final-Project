@@ -71,10 +71,5 @@ export const typeDefs = `#graphql
       solvedBy: String
     ): CreatedImage
     removeCreatedImage(_id: String!): CreatedImage
-    guessCreatedImage(
-      userId: String!
-      imageId: String!
-      guess: String!
-    ): CreatedImage
   }
 `;
