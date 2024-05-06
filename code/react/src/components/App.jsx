@@ -9,6 +9,7 @@ import SignUpOrLogin from './SignUpOrLogin.jsx';
 import AboutUs from './AboutUs.jsx';
 import ShowCreatedImages from './ShowCreatedImages';
 import Create from './Create.jsx';
+import Leaderboard from './Leaderboard.jsx'
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
         <Route path='/Create' element={<Create />}/>
         <Route path='/SharedImages' element={<SharedImages />}/> 
         <Route path='/ShowCreatedImages' element={<ShowCreatedImages />} />
-        <Route path='/Leaderboard' />
+        <Route path='/Leaderboard' element={<Leaderboard />} />
         <Route path='/AboutUs' element={<AboutUs />}/>
         <Route path="*" />
       </Routes>

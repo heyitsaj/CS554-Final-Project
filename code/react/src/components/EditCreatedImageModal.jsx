@@ -65,7 +65,7 @@ function EditCreatedImageModal(props) {
                 userId: props.createdImage.userId,
                 image: props.createdImage.image,
                 description: description.value,
-                solvedBy: 'none'
+                solvedBy: "current user"
               }
             });
             description.value = '';

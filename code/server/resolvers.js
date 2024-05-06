@@ -32,6 +32,10 @@ export const resolvers = {
 
       return allCreatedImages;
     },
+    leaderboard: async () => {
+
+      return [];
+    }
   },
   Mutation: {
     addSharedImage: async (_, args) => {
@@ -136,7 +140,8 @@ export const resolvers = {
       if (newCreatedImage) {
         let description = args.description.trim();
         newCreatedImage.description = description;
-
+        newCreatedImage.solvedBy = args.solvedBy.trim();
+        
         // remove old album collection cache for updated image
         let response = await createdImages.updateOne({_id: args._id}, {$set: newCreatedImage});
         if(response){

@@ -144,6 +144,12 @@ const GUESS_CREATED_IMAGE = gql`
   }
 `;
 
+const GET_LEADERBOARD = gql`
+  query {
+    leaderboard 
+  }
+`;
+
 let exported = {
   ADD_SHARED_IMAGE,
   GET_SHARED_IMAGES,
@@ -153,7 +159,8 @@ let exported = {
   DELETE_CREATED_IMAGE,
   EDIT_SHARED_IMAGE,
   EDIT_CREATED_IMAGE,
-  GUESS_CREATED_IMAGE
+  GUESS_CREATED_IMAGE,
+  GET_LEADERBOARD
 };
 
 export default exported;

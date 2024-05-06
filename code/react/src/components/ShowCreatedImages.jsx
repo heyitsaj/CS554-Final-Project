@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
 import React, {useState} from 'react';
 import Add from './Add'
-import {useQuery} from '@apollo/client';
+import {useQuery, useMutation} from '@apollo/client';
 import queries from '../queries'
 import EditCreatedImageModal from './EditCreatedImageModal';
 import DeleteCreatedImageModal from './DeleteCreatedImageModal';
@@ -10,18 +10,51 @@ import Navigation from './Navigation';
 export default function ShowCreatedImages() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [guess, setGuess] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   
-  const [editImage, setEditImage] = useState(null);
+  const [editCreatedImage] = useMutation(queries.EDIT_CREATED_IMAGE);
+
   const [deleteImage, setDeleteImage] = useState(null);
 
   const {loading, error, data} = useQuery(queries.GET_CREATED_IMAGES, {
     fetchPolicy: 'cache-and-network'
   });
 
-  const handleOpenEditModal = (image) => {
-    setShowEditModal(true);
-    setEditImage(image);
+  const handleGuess = (image) => {
+    if(guess && guess.trim() !== ""){
+      // check if guess matches image description
+      if(guess === image.description) { // guessed correct, update database
+        editCreatedImage({
+          variables: {
+            id: image._id,
+            userId: image.userId,
+            image: image.image,
+            description: image.description,
+            solvedBy: "current solved user"
+          }
+        });
+
+        updateLeaderboard({
+          variables: {
+            id: image._id,
+            userId: image.userId,
+            image: image.image,
+            description: image.description,
+            solvedBy: "current solved user"
+          }
+        });
+      }
+      else{
+        alert("INCORRECT GUESS");
+      }
+    }
+  };
+
+  const handleGuessUpdate = (event) => {
+    event.preventDefault();
+    const value = event.target.value;
+    setGuess(value);
   };
 
   const handleOpenDeleteModal = (image) => {
@@ -58,13 +91,26 @@ export default function ShowCreatedImages() {
                   </h3>
                   <img src={createdImage.image} alt="Created Image" width="500" height="600"></img>
                   <p>Description: {createdImage.description}</p>
+                  {
+                    createdImage.solvedBy !== "none" ? 
+                      <div className='form-group'>
+                      <label>
+                        Guess:
+                        <input id='guessInput' onChange={handleGuessUpdate} />
+                      </label>
+                      </div>
+                    :
+                      
+                    <p></p>
+                  }
+
                   <button
                     className='button'
                     onClick={() => {
-                      handleOpenEditModal(createdImage);
+                      handleGuess(createdImage);
                     }}
                   >
-                    Edit
+                    Guess
                   </button>
                   <button
                     className='button'
