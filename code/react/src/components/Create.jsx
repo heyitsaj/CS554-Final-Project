@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { fabric } from 'fabric';
 
-const CreatedImages = () => {
+const Create = () => {
   const canvasRef = useRef(null);
   const fabricCanvas = useRef(null);
   const [color, setColor] = useState('black');
@@ -66,4 +66,4 @@ const CreatedImages = () => {
   );
 };
 
-export default CreatedImages;
+export default Create;

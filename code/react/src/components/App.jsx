@@ -4,7 +4,7 @@ import Home from './Home'
 import {Route, Link, Routes } from 'react-router-dom';
 import { useState } from 'react'
 import './App.css'
-import CreatedImages from './Created';
+import CreatedImages from './CreatedImages';
 import SharedImages from './SharedImages.jsx';
 import SignUpOrLogin from './SignUpOrLogin.jsx';
 import AboutUs from './AboutUs.jsx';
