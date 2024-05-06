@@ -1,4 +1,20 @@
+import { useNavigate } from "react-router-dom";
+
 export default function AboutUs() {
+
+    const navigate = useNavigate();
+
+    const homeButton = () => {
+        return <button
+            onClick={(e) => {
+                e.preventDefault();
+                navigate('/');
+            }} style={{position: "fixed", top: 0, left: 0, margin: 10, padding: 10}}
+        >
+            Home
+        </button>
+    }
+
     return (
         <div>
             <h1 style={{textAlign: "center"}}>About Pictogram</h1>
@@ -9,6 +25,9 @@ export default function AboutUs() {
                 drawing is. Whoever has the most correct guesses will top the leaderboad, so make it challenging! Whatever you decide to post
                 or draw, Pictogram is meant to be a hub for creativity and entertainment. Show us what you've got!
             </p>
+            <div>
+                {homeButton()}
+            </div>
         </div>
     )
 }
