@@ -5,8 +5,9 @@ import {useQuery} from '@apollo/client';
 import queries from '../queries'
 import EditCreatedImageModal from './EditCreatedImageModal';
 import DeleteCreatedImageModal from './DeleteCreatedImageModal';
+import Navigation from './Navigation';
 
-export default function CreatedImages() {
+export default function ShowCreatedImages() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -41,6 +42,7 @@ export default function CreatedImages() {
     const {createdImages} = data;
     return (
       <div>
+        <Navigation />
         <h1>Welcome to the Created Images Page!</h1>
         <h3>Here you can upload images and edit images.</h3>
         <button className='button' onClick={() => setShowAddForm(!showAddForm)}>

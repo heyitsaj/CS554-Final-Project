@@ -8,6 +8,7 @@ import CreatedImages from './Created';
 import SharedImages from './SharedImages.jsx';
 import SignUpOrLogin from './SignUpOrLogin.jsx';
 import AboutUs from './AboutUs.jsx';
+import ShowCreatedImages from './ShowCreatedImages';
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
         <Route path='/signUpOrLogin' element={<SignUpOrLogin />}/>
         <Route path='/logout'  />
         <Route path='/SharedImages' element={<SharedImages />}/> 
-        <Route path='/CreatedImages' element={<CreatedImages />}/>    
+        <Route path='/ShowCreatedImages' element={<ShowCreatedImages />} />
+        <Route path='/CreatedImages' element={<CreatedImages />} />
         <Route path='/Leaderboard' />
         <Route path='/AboutUs' element={<AboutUs />}/>
         <Route path="*" />

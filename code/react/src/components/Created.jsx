@@ -4,6 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 import { fabric } from 'fabric';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, signOutUser } from '../firebase/firebase-src';
+import queries from '../queries';
+import {useMutation} from '@apollo/client';
+import Navigation from './Navigation';
 
 const CreatedImages = () => {
   const canvasRef = useRef(null);
@@ -11,6 +14,18 @@ const CreatedImages = () => {
   const [color, setColor] = useState('black');
   const [size, setSize] = useState(5);
   const [user, setUser] = useState(null);
+
+  const [addCreatedImage] = useMutation(queries.ADD_CREATED_IMAGE, {
+    update(cache, {data: {addCreatedImage}}) {
+      const {createdImages} = cache.readQuery({
+        query: queries.GET_CREATED_IMAGES
+      });
+      cache.writeQuery({
+        query: queries.GET_CREATED_IMAGES,
+        data: {createdImages: [...createdImages, addCreatedImage]}
+      });
+    }
+  });
 
   useEffect(() => {
     const signedIn = onAuthStateChanged(auth, (currentUser) => {
@@ -33,12 +48,25 @@ const CreatedImages = () => {
     }
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = (e) => {
     // Figure this is where GQL query is run,
     // Sending Encoded Image data, User data,
     // and Pictogram answer to DB
-
+    e.preventDefault();
     // TODO: Implement form submission
+    console.log(`KEYS: ${Object.keys(e)}`);
+    const canvas = document.getElementById("canvas");
+    const dataURL = canvas.toDataURL();
+    const description = "test description";
+    addCreatedImage({
+      variables: {
+        userId: "1",
+        image: dataURL,
+        dateFormed: new Date(),
+        description: description
+      }
+    });
+
   }
 
   const handleSizeChange = (e) => {
@@ -105,48 +133,7 @@ const CreatedImages = () => {
   return (
 
     <div className="drawPad" >
-      <div className="header">
-      <h1 style={{ textAlign: 'center' }}>Welcome to Pictogram!</h1>
-      {user ?
-       <button
-         onClick={onSignOut}
-         style={{ position: 'fixed', top: 30, right: 10, borderColor: 'black' }}
-       >
-         Sign Out
-       </button> :
-      <button
-        onClick={onSignUpOrLogin}
-        style={{ position: 'fixed', top: 30, right: 10, borderColor: 'black' }}
-      >
-        Sign Up/Login
-      </button>}
-      <nav className='nav-bar'>
-        <Link className='nav-link' to='/SharedImages' // onClick={user ? undefined : (e) => {
-          // e.preventDefault();
-          // alert("You must have an account to access this feature.")
-        //}}
-        >
-          Image Sharing
-        </Link>
-        <Link className='nav-link' to='/CreatedImages' // onClick={user ? undefined : (e) => {
-          // e.preventDefault();
-          // alert("You must have an account to access this feature.")
-        //}}
-        >
-          Image Creation
-        </Link>
-        <Link className='nav-link' to='/Leaderboard' // onClick={user ? undefined : (e) => {
-          //e.preventDefault();
-          //alert("You must have an account to access this feature.")
-        //}}
-        >
-          Leaderboard
-        </Link>
-        <Link className='nav-link' to='/AboutUs'>
-          About Us
-        </Link>
-      </nav>
-      </div>
+      <Navigation />
       <div className="footer">
         <p>Brush Size: {size} px</p>
         <input
@@ -158,6 +145,7 @@ const CreatedImages = () => {
           value={size}
         />
         <canvas
+          id="canvas"
           ref={canvasRef}
           width={750}
           height={750}

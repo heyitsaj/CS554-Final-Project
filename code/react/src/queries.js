@@ -128,6 +128,22 @@ const DELETE_CREATED_IMAGE = gql`
   }
 `;
 
+const GUESS_CREATED_IMAGE = gql`
+  mutation solveCreatedImage(
+    $userId: String!
+    $imageId: String!
+    $guess: String
+  ) {
+    guessCreatedImage(
+      userId: $userId
+      imageId: $imageId
+      guess: $guess
+    ) {
+      _id
+    }
+  }
+`;
+
 let exported = {
   ADD_SHARED_IMAGE,
   GET_SHARED_IMAGES,
@@ -136,7 +152,8 @@ let exported = {
   GET_CREATED_IMAGES,
   DELETE_CREATED_IMAGE,
   EDIT_SHARED_IMAGE,
-  EDIT_CREATED_IMAGE
+  EDIT_CREATED_IMAGE,
+  GUESS_CREATED_IMAGE
 };
 
 export default exported;

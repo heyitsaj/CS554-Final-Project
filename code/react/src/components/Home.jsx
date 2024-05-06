@@ -62,6 +62,13 @@ export default function Home() {
         >
           Image Creation
         </Link>
+        <Link className='nav-link' to='/ShowCreatedImages' // onClick={user ? undefined : (e) => {
+          // e.preventDefault();
+          // alert("You must have an account to access this feature.")
+        //}}
+        >
+          Created Images
+        </Link>
         <Link className='nav-link' to='/Leaderboard' // onClick={user ? undefined : (e) => {
           //e.preventDefault();
           //alert("You must have an account to access this feature.")

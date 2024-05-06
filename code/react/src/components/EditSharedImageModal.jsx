@@ -25,11 +25,33 @@ function EditSharedImageModal(props) {
   const [showEditModal, setShowEditModal] = useState(props.isOpen);
   const {loading, error, data} = useQuery(queries.GET_SHARED_IMAGES);
   const [editSharedImage] = useMutation(queries.EDIT_SHARED_IMAGE);
+  const [canvas, setCanvas] = useState('');
   const handleCloseEditModal = () => {
     setShowEditModal(false);
     setSharedImage(null);
     props.handleClose();
   };
+
+  const initCanvas = () => (
+    new fabric.Canvas('canvas', {
+       height: 800,
+       width: 800,
+       backgroundColor: 'pink'
+    })
+ );
+
+  useEffect(() => {
+    setCanvas(initCanvas());
+  }, []);
+
+  const imgElement = document.getElementById('my-image');
+  const imgInstance = new fabric.Image(imgElement, {
+    left: 100,
+    top: 100,
+    angle: 30,
+    opacity: 0.85
+  });
+  canvas.add(imgInstance);
 
   let description;
   let image;
@@ -82,7 +104,8 @@ function EditSharedImageModal(props) {
                   <h3 className='card-title'>
                     Image: {props.sharedImage._id}
                   </h3>
-                  <img src={props.sharedImage.image} alt="Shared Image" width="500" height="600"></img>
+                  <canvas id="c"></canvas>
+                  <img id="my-image" src={props.sharedImage.image} alt="Shared Image" width="500" height="600"></img>
                   <label>
                     Description:
                     <input id='description' autoFocus={true} />

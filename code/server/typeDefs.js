@@ -5,6 +5,7 @@ export const typeDefs = `#graphql
     users: [User]
     sharedImages: [SharedImage]
     createdImages: [CreatedImage]
+    leaderBoard: [String]
   }
 
   type User {
@@ -14,6 +15,7 @@ export const typeDefs = `#graphql
     createdImages: [CreatedImage!]!
     numOfSharedImages: Int
     numOfCreatedImages: Int
+    numOfSolvedImages: Int
   }
   
   type SharedImage {
@@ -33,6 +35,11 @@ export const typeDefs = `#graphql
     userId: String!
     dateFormed: Date!
     description: String
+  }
+
+  type Leaderboard {
+    _id: String!
+    users: [User]
   }
 
   scalar Date
@@ -69,5 +76,10 @@ export const typeDefs = `#graphql
       solvedBy: String
     ): CreatedImage
     removeCreatedImage(_id: String!): CreatedImage
+    guessCreatedImage(
+      userId: String!
+      imageId: String!
+      guess: String!
+    ): CreatedImage
   }
 `;
