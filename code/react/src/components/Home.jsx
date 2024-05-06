@@ -73,6 +73,7 @@ export default function Home() {
           About Us
         </Link>
       </nav>
+      <img src='/Pictogram.png' alt='Pictogram Logo' style={{display: 'block', margin: '20px auto', width: '400px', height: 'auto', paddingBottom: 20}}/>
     </div>
   );
 }
