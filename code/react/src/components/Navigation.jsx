@@ -54,7 +54,7 @@ function Navigation() {
         >
           Image Sharing
         </Link>
-        <Link className='nav-link' to='/CreatedImages' // onClick={user ? undefined : (e) => {
+        <Link className='nav-link' to='/Create' // onClick={user ? undefined : (e) => {
           // e.preventDefault();
           // alert("You must have an account to access this feature.")
         //}}

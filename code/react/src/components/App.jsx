@@ -4,7 +4,6 @@ import Home from './Home'
 import {Route, Link, Routes } from 'react-router-dom';
 import { useState } from 'react'
 import './App.css'
-import CreatedImages from './CreatedImages';
 import SharedImages from './SharedImages.jsx';
 import SignUpOrLogin from './SignUpOrLogin.jsx';
 import AboutUs from './AboutUs.jsx';
@@ -21,7 +20,6 @@ function App() {
         <Route path='/Create' element={<Create />}/>
         <Route path='/SharedImages' element={<SharedImages />}/> 
         <Route path='/ShowCreatedImages' element={<ShowCreatedImages />} />
-        <Route path='/CreatedImages' element={<CreatedImages />} />
         <Route path='/Leaderboard' />
         <Route path='/AboutUs' element={<AboutUs />}/>
         <Route path="*" />
