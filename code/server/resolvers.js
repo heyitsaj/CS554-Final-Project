@@ -130,6 +130,32 @@ export const resolvers = {
 
       return createdImage;
     },
+    editCreatedImage: async (_, args) => {
+      const createdImages = await createdImagesCollection();
+      let newCreatedImage = await createdImages.findOne({_id: args._id});
+      if (newCreatedImage) {
+        let description = args.description.trim();
+        newCreatedImage.description = description;
+
+        // remove old album collection cache for updated artist
+        let response = await createdImages.updateOne({_id: args._id}, {$set: newCreatedImage});
+        if(response){
+          return newCreatedImage;
+        }
+        else{
+          throw new GraphQLError(`Could not update createdImage: ${args._id}`, {
+            extensions: {code: 'INTERNAL_SERVER_ERROR'}
+          });
+        }
+      } else {
+        throw new GraphQLError(
+          `Could not update createdImage with _id of ${args._id}`,
+          {
+            extensions: {code: 'NOT_FOUND'}
+          }
+        );
+      }
+    },
     removeCreatedImage: async (_, args) => {
       const createdImage = await createdImagesCollection();
       const deletedImage = await createdImage.findOneAndDelete({_id: args._id});

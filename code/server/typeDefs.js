@@ -61,6 +61,13 @@ export const typeDefs = `#graphql
       dateFormed: Date!
       description: String
     ): CreatedImage
+    editCreatedImage(
+      _id: String!
+      userId: String!
+      image: String!
+      description: String
+      solvedBy: String
+    ): CreatedImage
     removeCreatedImage(_id: String!): CreatedImage
   }
 `;

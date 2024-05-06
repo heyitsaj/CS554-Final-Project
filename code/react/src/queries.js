@@ -100,6 +100,26 @@ const ADD_CREATED_IMAGE = gql`
     }
 `;
 
+const EDIT_CREATED_IMAGE = gql`
+  mutation changeCreatedImage(
+    $id: String!
+    $userId: String!
+    $image: String!
+    $description: String
+    $solvedBy: String
+  ) {
+    editCreatedImage(
+      _id: $id
+      userId: $userId
+      image: $image
+      description: $description
+      solvedBy: $solvedBy
+    ) {
+      _id
+    }
+  }
+`;
+
 const DELETE_CREATED_IMAGE = gql`
   mutation removeCreatedImage($id: String!) {
     removeCreatedImage(_id: $id) {
@@ -115,7 +135,8 @@ let exported = {
   ADD_CREATED_IMAGE,
   GET_CREATED_IMAGES,
   DELETE_CREATED_IMAGE,
-  EDIT_SHARED_IMAGE
+  EDIT_SHARED_IMAGE,
+  EDIT_CREATED_IMAGE
 };
 
 export default exported;

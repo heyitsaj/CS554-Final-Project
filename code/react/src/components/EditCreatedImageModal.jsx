@@ -21,20 +21,20 @@ const customStyles = {
   }
 };
 
-function EditSharedImageModal(props) {
+function EditCreatedImageModal(props) {
   const [showEditModal, setShowEditModal] = useState(props.isOpen);
-  const {loading, error, data} = useQuery(queries.GET_SHARED_IMAGES);
-  const [editSharedImage] = useMutation(queries.EDIT_SHARED_IMAGE);
+  const {loading, error, data} = useQuery(queries.GET_CREATED_IMAGES);
+  const [editCreatedImage] = useMutation(queries.EDIT_CREATED_IMAGE);
   const handleCloseEditModal = () => {
     setShowEditModal(false);
-    setSharedImage(null);
+    setCreatedImage(null);
     props.handleClose();
   };
 
   let description;
   let image;
   if (data) {
-    var {sharedImages} = data;
+    var {createdImages} = data;
   }
   if (loading) {
     return <div>loading...</div>;
@@ -44,45 +44,46 @@ function EditSharedImageModal(props) {
   }
   return (
     <div>
-      {/*Edit SharedImage Modal - NOT DONE YET */}
+      {/*Edit CreatedImage Modal - NOT DONE YET */}
       <ReactModal
         name='editModal'
         isOpen={showEditModal}
-        contentLabel='Edit SharedImage'
+        contentLabel='Edit CreatedImage'
         style={customStyles}
       >
         <form
           className='form'
-          id='add-sharedImage'
+          id='add-createdImage'
           onSubmit={(e) => {
             image = document.getElementById('image');
             description = document.getElementById('description');
 
             e.preventDefault();
-            editSharedImage({
+            editCreatedImage({
               variables: {
-                id: props.sharedImage._id,
-                userId: props.sharedImage.userId,
-                image: props.sharedImage.image,
-                description: description.value
+                id: props.createdImage._id,
+                userId: props.createdImage.userId,
+                image: props.createdImage.image,
+                description: description.value,
+                solvedBy: 'none'
               }
             });
             description.value = '';
             setShowEditModal(false);
 
-            alert('SharedImage Updated');
+            alert('CreatedImage Updated');
             props.handleClose();
           }}
         >
-          <div className='card' key={props.sharedImage._id}>
+          <div className='card' key={props.createdImage._id}>
                 <div className='card-body'>
                   <h2 className='card-title'>
-                    {props.sharedImage._id}
+                    {props.createdImage._id}
                   </h2>
                   <h3 className='card-title'>
-                    Image: {props.sharedImage._id}
+                    Image: {props.createdImage._id}
                   </h3>
-                  <img src={props.sharedImage.image} alt="Shared Image" width="500" height="600"></img>
+                  <img src={props.createdImage.image} alt="Created Image" width="500" height="600"></img>
                   <label>
                     Description:
                     <input id='description' autoFocus={true} />
@@ -90,7 +91,7 @@ function EditSharedImageModal(props) {
                 </div>
           </div>
           <button className='button add-button' type='submit'>
-            Update SharedImage
+            Update CreatedImage
           </button>
         </form>
 
@@ -102,4 +103,4 @@ function EditSharedImageModal(props) {
   );
 }
 
-export default EditSharedImageModal;
+export default EditCreatedImageModal;

@@ -59,11 +59,7 @@ export default function SharedImages() {
               <div className='card' key={sharedImage._id}>
                 <div className='card-body'>
                   <h2 className='card-title'>
-                  <Link className='navlink' to={{
-                      pathname:`/SharedImages/${sharedImage._id}`
-                  }}>       
                   {sharedImage._id}
-                  </Link>
                   </h2>
                   <h3 className='card-title'>
                     Image: {sharedImage._id}

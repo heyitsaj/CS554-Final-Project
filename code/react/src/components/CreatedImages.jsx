@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import Add from './Add'
 import {useQuery} from '@apollo/client';
 import queries from '../queries'
+import EditCreatedImageModal from './EditCreatedImageModal';
 import DeleteCreatedImageModal from './DeleteCreatedImageModal';
 
 export default function CreatedImages() {
@@ -56,16 +57,13 @@ export default function CreatedImages() {
               <div className='card' key={createdImage._id}>
                 <div className='card-body'>
                   <h2 className='card-title'>
-                  <Link className='navlink' to={{
-                      pathname:`/CreatedImages/${createdImage._id}`
-                  }}>       
                   {createdImage._id}
-                  </Link>
                   </h2>
                   <h3 className='card-title'>
                     Image: {createdImage._id}
                   </h3>
                   <img src={createdImage.image} alt="Created Image" width="500" height="600"></img>
+                  <p>Description: {createdImage.description}</p>
                   <button
                     className='button'
                     onClick={() => {
@@ -88,9 +86,9 @@ export default function CreatedImages() {
             );
         })}
         {showEditModal && (
-          <EditCompanyModal
+          <EditCreatedImageModal
             isOpen={showEditModal}
-            image={editImage}
+            createdImage={editImage}
             handleClose={handleCloseModals}
           />
         )}
