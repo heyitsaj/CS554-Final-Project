@@ -3,10 +3,12 @@ import * as utilHelper from './helpers.js'
 
 import {
   sharedImages as sharedImagesCollection,
-  createdImages as createdImagesCollection
+  createdImages as createdImagesCollection,
+  users as userCollection
 } from './config/mongoCollections.js';
 
 import {v4 as uuid} from 'uuid'; //for generating _id's
+import { ObjectId } from 'mongodb';
 
 export const resolvers = {
   Query: {
@@ -32,9 +34,16 @@ export const resolvers = {
 
       return allCreatedImages;
     },
-    leaderboard: async () => {
+    users: async () => {
+      const users = await userCollection();
+      const allUsers = await users.find({}).toArray();
+      if (!users) {
+        throw new GraphQLError(`Internal Server Error`, {
+          extensions: {code: 'INTERNAL_SERVER_ERROR'}
+        });
+      }
 
-      return [];
+      return allUsers;
     }
   },
   Mutation: {
@@ -175,5 +184,32 @@ export const resolvers = {
       }
       return deletedImage;
     },
- }
+    addUser: async (_, args) => {
+      const users = await userCollection();
+
+      console.log(args);
+
+      let newUser = {
+        _id: new ObjectId(),
+        email: args.email,
+        password: args.password,
+        sharedImages: [],
+        createdImages: [],
+        numOfSharedImages: 0,
+        numOfCreatedImages: 0,
+        numOfSolvedImages: 0 
+      }
+
+      let insertedUser = users.insertOne(newUser);
+      const foundUser = await users.findOne({_id: insertedUser.insertedId});
+      if (!foundUser) {
+        //can't find the created user
+        throw new GraphQLError('User Not Found', {
+          extensions: {code: 'NOT_FOUND'}
+        });
+      }
+
+      return insertedUser;
+    }
+  } 
 };
