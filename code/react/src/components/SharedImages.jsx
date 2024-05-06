@@ -3,7 +3,8 @@ import React, {useState} from 'react';
 import Add from './Add'
 import {useQuery} from '@apollo/client';
 import queries from '../queries'
-import DeleteSharedImageModal from './DeleteCreatedImageModal';
+import EditSharedImageModal from './EditSharedImageModal';
+import DeleteSharedImageModal from './DeleteSharedImageModal';
 
 export default function SharedImages() {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -14,7 +15,7 @@ export default function SharedImages() {
   const [deleteImage, setDeleteImage] = useState(null);
 
   const {loading, error, data} = useQuery(queries.GET_SHARED_IMAGES, {
-    fetchPolicy: 'cache-and-network'
+    fetchPolicy: 'cache-and-network',
   });
 
   const handleOpenEditModal = (image) => {
@@ -34,6 +35,8 @@ export default function SharedImages() {
   const handleCloseModals = () => {
     setShowEditModal(false);
     setShowDeleteModal(false);
+    
+    navigate("/SharedImages"); // trigger update
   };
   
   if (data) {
@@ -66,6 +69,7 @@ export default function SharedImages() {
                     Image: {sharedImage._id}
                   </h3>
                   <img src={sharedImage.image} alt="Shared Image" width="500" height="600"></img>
+                  <p>Description: {sharedImage.description}</p>
                   <button
                     className='button'
                     onClick={() => {
@@ -88,9 +92,9 @@ export default function SharedImages() {
             );
         })}
         {showEditModal && (
-          <EditCompanyModal
+          <EditSharedImageModal
             isOpen={showEditModal}
-            image={editImage}
+            sharedImage={editImage}
             handleClose={handleCloseModals}
           />
         )}

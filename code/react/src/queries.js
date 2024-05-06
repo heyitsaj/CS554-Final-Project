@@ -36,6 +36,24 @@ const ADD_SHARED_IMAGE = gql`
     }
 `;
 
+const EDIT_SHARED_IMAGE = gql`
+  mutation changeSharedImage(
+    $id: String!
+    $userId: String!
+    $image: String!
+    $description: String
+  ) {
+    editSharedImage(
+      _id: $id
+      userId: $userId
+      image: $image
+      description: $description
+    ) {
+      _id
+    }
+  }
+`;
+
 const DELETE_SHARED_IMAGE = gql`
   mutation removeSharedImage($id: String!) {
     removeSharedImage(_id: $id) {
@@ -90,14 +108,14 @@ const DELETE_CREATED_IMAGE = gql`
   }
 `;
 
-
 let exported = {
   ADD_SHARED_IMAGE,
   GET_SHARED_IMAGES,
   DELETE_SHARED_IMAGE,
   ADD_CREATED_IMAGE,
   GET_CREATED_IMAGES,
-  DELETE_CREATED_IMAGE
+  DELETE_CREATED_IMAGE,
+  EDIT_SHARED_IMAGE
 };
 
 export default exported;

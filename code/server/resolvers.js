@@ -1,8 +1,5 @@
 import {GraphQLError, parse} from 'graphql';
-import { createClient } from 'redis';
 import * as utilHelper from './helpers.js'
-const client = createClient();
-await client.connect();
 
 import {
   sharedImages as sharedImagesCollection,
@@ -63,6 +60,33 @@ export const resolvers = {
       }
 
       return sharedImage;
+    },
+    editSharedImage: async (_, args) => {
+      const sharedImages = await sharedImagesCollection();
+      let newSharedImage = await sharedImages.findOne({_id: args._id});
+      console.log(newSharedImage); 
+      if (newSharedImage) {
+        let description = args.description.trim();
+        newSharedImage.description = description;
+
+        // remove old album collection cache for updated artist
+        let response = await sharedImages.updateOne({_id: args._id}, {$set: newSharedImage});
+        if(response){
+          return newSharedImage;
+        }
+        else{
+          throw new GraphQLError(`Could not update sharedImage: ${name}`, {
+            extensions: {code: 'INTERNAL_SERVER_ERROR'}
+          });
+        }
+      } else {
+        throw new GraphQLError(
+          `Could not update sharedImage with _id of ${args._id}`,
+          {
+            extensions: {code: 'NOT_FOUND'}
+          }
+        );
+      }
     },
     removeSharedImage: async (_, args) => {
       const sharedImage = await sharedImagesCollection();

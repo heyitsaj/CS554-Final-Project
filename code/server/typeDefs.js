@@ -48,6 +48,12 @@ export const typeDefs = `#graphql
       dateFormed: Date!
       description: String
     ): SharedImage
+    editSharedImage(
+      _id: String!
+      userId: String!
+      image: String!
+      description: String
+    ): SharedImage
     removeSharedImage(_id: String!): SharedImage
     addCreatedImage(
       userId: String!
