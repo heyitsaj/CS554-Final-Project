@@ -5,6 +5,7 @@ import {Route, Link, Routes } from 'react-router-dom';
 import { useState } from 'react'
 import './App.css'
 import CreatedImages from './Created';
+import SharedImages from './SharedImages.jsx';
 import SignUpOrLogin from './SignUpOrLogin.jsx';
 import AboutUs from './AboutUs.jsx';
 
@@ -15,7 +16,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/signUpOrLogin' element={<SignUpOrLogin />}/>
         <Route path='/logout'  />
-        <Route path='/SharedImages' />
+        <Route path='/SharedImages' element={<SharedImages />}/> 
         <Route path='/CreatedImages' element={<CreatedImages />}/>    
         <Route path='/Leaderboard' />
         <Route path='/AboutUs' element={<AboutUs />}/>
