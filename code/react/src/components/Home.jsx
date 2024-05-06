@@ -3,6 +3,7 @@ import './Home.css'; // Ensure to import the CSS file
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, signOutUser } from '../firebase/firebase-src';
+import Navigation from './Navigation';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -47,39 +48,7 @@ export default function Home() {
       >
         Sign Up/Login
       </button>}
-      <nav className='nav-bar'>
-        <Link className='nav-link' to='/SharedImages' // onClick={user ? undefined : (e) => {
-          // e.preventDefault();
-          // alert("You must have an account to access this feature.")
-        //}}
-        >
-          Image Sharing
-        </Link>
-        <Link className='nav-link' to='/CreatedImages' // onClick={user ? undefined : (e) => {
-          // e.preventDefault();
-          // alert("You must have an account to access this feature.")
-        //}}
-        >
-          Image Creation
-        </Link>
-        <Link className='nav-link' to='/ShowCreatedImages' // onClick={user ? undefined : (e) => {
-          // e.preventDefault();
-          // alert("You must have an account to access this feature.")
-        //}}
-        >
-          Created Images
-        </Link>
-        <Link className='nav-link' to='/Leaderboard' // onClick={user ? undefined : (e) => {
-          //e.preventDefault();
-          //alert("You must have an account to access this feature.")
-        //}}
-        >
-          Leaderboard
-        </Link>
-        <Link className='nav-link' to='/AboutUs'>
-          About Us
-        </Link>
-      </nav>
+      <Navigation/>
       <img src='/Pictogram.png' alt='Pictogram Logo' style={{display: 'block', margin: '20px auto', width: '400px', height: 'auto', paddingBottom: 20}}/>
     </div>
   );

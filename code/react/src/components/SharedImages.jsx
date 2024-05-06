@@ -5,6 +5,7 @@ import {useQuery} from '@apollo/client';
 import queries from '../queries'
 import EditSharedImageModal from './EditSharedImageModal';
 import DeleteSharedImageModal from './DeleteSharedImageModal';
+import Navigation from './Navigation';
 
 export default function SharedImages() {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -45,6 +46,7 @@ export default function SharedImages() {
       <div>
         <h1>Welcome to the Shared Images Page!</h1>
         <h3>Here you can upload images and edit images.</h3>
+        <Navigation />
         <button className='button' onClick={() => setShowAddForm(!showAddForm)}>
             Upload Shared Image
         </button>
@@ -64,7 +66,7 @@ export default function SharedImages() {
                   <h3 className='card-title'>
                     Image: {sharedImage._id}
                   </h3>
-                  <img src={sharedImage.image} alt="Shared Image" width="500" height="600"></img>
+                  <img src={sharedImage.image} alt="Shared Image" width="500"></img>
                   <p>Description: {sharedImage.description}</p>
                   <button
                     className='button'
