@@ -9,6 +9,7 @@ import {useMutation} from '@apollo/client';
 import Navigation from './Navigation';
 
 const Create = () => {
+  const navigate = useNavigate();
   const canvasRef = useRef(null);
   const fabricCanvas = useRef(null);
   const [color, setColor] = useState('black');
@@ -66,7 +67,7 @@ const Create = () => {
         description: description
       }
     });
-
+    navigate('/ShowCreatedImages')
   }
 
   const handleSizeChange = (e) => {
