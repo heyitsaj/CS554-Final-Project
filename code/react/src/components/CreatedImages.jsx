@@ -7,7 +7,6 @@ import EditCreatedImageModal from './EditCreatedImageModal';
 import DeleteCreatedImageModal from './DeleteCreatedImageModal';
 
 export default function CreatedImages() {
-  const [showAddForm, setShowAddForm] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   
@@ -27,10 +26,7 @@ export default function CreatedImages() {
     setShowDeleteModal(true);
     setDeleteImage(image);
   };
-  const closeAddFormState = () => {
-    setShowAddForm(false);
-    
-  };
+
 
   const handleCloseModals = () => {
     setShowEditModal(false);
@@ -42,13 +38,8 @@ export default function CreatedImages() {
     return (
       <div>
         <h1>Welcome to the Created Images Page!</h1>
-        <h3>Here you can upload images and edit images.</h3>
-        <button className='button' onClick={() => setShowAddForm(!showAddForm)}>
-            Upload Created Image
-        </button>
-        {showAddForm && (
-            <Add type='createdImage' closeAddFormState={closeAddFormState} />
-        )}
+        <h3>Here you can create and guess drawings.</h3>
+        <Link to={`/Create`}>Create Image</Link>
         <br />
         <br />
   
