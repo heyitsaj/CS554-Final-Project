@@ -8,7 +8,7 @@ import queries from '../queries';
 import {useMutation} from '@apollo/client';
 import Navigation from './Navigation';
 
-const CreatedImages = () => {
+const Create = () => {
   const canvasRef = useRef(null);
   const fabricCanvas = useRef(null);
   const [color, setColor] = useState('black');
@@ -177,4 +177,4 @@ const CreatedImages = () => {
   );
 };
 
-export default CreatedImages;
+export default Create;
