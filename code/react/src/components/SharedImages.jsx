@@ -65,7 +65,7 @@ export default function SharedImages() {
 
   if (loading || userLoading) return <div>Loading...</div>;
   if (error || userError) return <div>Error: {error ? error.message : userError.message}</div>;
-  if (!data || !userData) return <div>No data found.</div>;
+  if (!data) return <div>No data found.</div>;
 
   const { sharedImages } = data;
 
