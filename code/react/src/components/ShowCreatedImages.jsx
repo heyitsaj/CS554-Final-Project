@@ -74,9 +74,8 @@ export default function ShowCreatedImages() {
       <div>
         
         <h1>Welcome to the Created Images Page!</h1>
-        <h3>Here you can create and guess drawings.</h3>
+        <h3>Here you can guess drawings!</h3>
         <Navigation />
-        <Link to={`/Create`}>Create Image</Link>
         <br />
         <br />
   
