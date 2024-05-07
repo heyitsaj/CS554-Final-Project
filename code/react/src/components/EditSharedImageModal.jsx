@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactModal from 'react-modal';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation} from '@apollo/client';
 import { fabric } from 'fabric';
 import queries from '../queries';
 
@@ -13,7 +13,7 @@ const customStyles = {
     right: 'auto',
     bottom: '10px',
     transform: 'translate(-50%, -50%)',
-    width: '80vw',
+    width: '80vw', // Default to a flexible width and height
     height: '80vh',
     border: '1px solid #28547a',
     borderRadius: '4px',
@@ -24,25 +24,100 @@ function EditSharedImageModal(props) {
   const [showEditModal, setShowEditModal] = useState(props.isOpen);
   const { loading, error, data } = useQuery(queries.GET_SHARED_IMAGES);
   const [editSharedImage] = useMutation(queries.EDIT_SHARED_IMAGE);
+  const fabricCanvas = useRef(null);
   const [canvas, setCanvas] = useState(null);
+  const canvasRef = useRef(null);
+  const [color, setColor] = useState('black');
+  const [size, setSize] = useState(5);
+  const [brush, setBrush] = useState(true);
+  useEffect(() => {
+    if (fabricCanvas.current) {
+      fabricCanvas.current.isDrawingMode = brush;
+    }
+  }, [brush]);
+  useEffect(() => {
+    if (fabricCanvas.current) {
+      fabricCanvas.current.freeDrawingBrush.width = size;
+    }
+  }, [size]);
+  useEffect(() => {
+    if (fabricCanvas.current) {
+      fabricCanvas.current.freeDrawingBrush.color = color;
+    }
+  }, [color]);
+  const initializeCanvasWithImage = (imageSrc) => {
+    const imgElement = new Image(); // Create an off-screen image
+    imgElement.src = imageSrc;
 
-  const handleModalAfterOpen = () => {
-    const newCanvas = new fabric.Canvas('canvas', {
-      height: 800,
-      width: 800,
-      backgroundColor: 'white',
-    });
+    imgElement.onload = () => {
+      const canvasWidth = imgElement.width;
+      const canvasHeight = imgElement.height;
 
-    setCanvas(newCanvas);
+      const newCanvas = new fabric.Canvas('canvas', {
+        height: canvasHeight,
+        width: canvasWidth,
+        backgroundColor: 'white',
+      });
+      fabricCanvas.current = newCanvas;
 
-    const imgElement = document.getElementById('my-image');
-    if (imgElement) {
+      newCanvas.isDrawingMode = brush;
+
+      newCanvas.freeDrawingBrush.color = color;
+      newCanvas.freeDrawingBrush.width = size;
+
+      setCanvas(newCanvas);
+
       const imgInstance = new fabric.Image(imgElement, {
         left: 0,
         top: 0,
       });
+
       newCanvas.add(imgInstance);
+      document.getElementById('local').addEventListener("change", function (e) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        var localImage = new Image();
+        localImage.src = e.target.result;
+                  
+        localImage.onload = function() {
+          var img = new fabric.Image(localImage);
+          img.set({
+            left: 0,
+            top: 0
+          });
+          
+          var scale = Math.min(750 / img.width, 750 / img.height)
+
+          img.scale(scale);
+
+          newCanvas.add(img).renderAll();
+          newCanvas.isDrawingMode = false;
+        }
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    });
+
+    return () => {
+      newCanvas.dispose();
+    };
+    };
+  };
+  const handleSizeChange = (e) => {
+    setSize(parseInt(e.target.value.toString(), 10));
+  };
+  const handleColorChange = (e) => {
+    setColor(e.target.value)
+  }
+  const handleTool = (e) => {
+    if(e.target.value == "brush"){
+      setBrush(true);
+    }else{
+      setBrush(false);
     }
+  }
+
+  const handleModalAfterOpen = () => {
+    initializeCanvasWithImage(props.sharedImage.image);
   };
 
   const handleCloseEditModal = () => {
@@ -94,13 +169,95 @@ function EditSharedImageModal(props) {
           <div className="card" key={props.sharedImage._id}>
             <div className="card-body">
               <h2 className="card-title">Image: {props.sharedImage._id}</h2>
-              <h3 className="card-title" style={{fontSize:'0px'}}>{props.sharedImage.image}</h3>
-              <canvas id="canvas" style={{ border: '1px solid black' }}></canvas>
+              <div className="footer">
+                <div>
+                  <div style={{display: "flex", flexDirection: "row"}}>
+                    <p>Brush Size: {size} px</p>
+                    <input
+                      onChange={handleSizeChange}
+                      type="range"
+                      orient="vertical"
+                      min={1}
+                      max={50}
+                      value={size}
+                    />
+                  </div>
+                  <div className="toolSelect" style={{display:"flex", flexDirection:"column"}} onClick={handleTool}>
+                    <label htmlFor='move'>
+                      <input type="radio" id='move' name="color" value="move" hidden />
+                      <img className='icon' src='/move-icon.svg' width={100}></img>
+                    </label>
+                    <label htmlFor='brush'>
+                      <input type="radio" id='brush' name="color" value="brush" hidden />
+                      <img className='icon' src='/draw-icon.svg' width={100}></img>
+                    </label>
+                  </div>
+                </div>
+                
+                <canvas
+                  id="canvas"
+                  ref={canvasRef}
+                  width={750}
+                  height={750}
+                  style={{ border: '1px solid black' }}
+                />
+                <div className="uploads">
+                  
+
+                <div className="colorSelect" onClick={handleColorChange}>
+                    <label htmlFor='red'>
+                      <input type="radio" id='red' name="color" value="red" hidden />
+                      <div className="colorBox" style={{ background: 'red', height: '4vh', width: '4vw', border: "1px solid black"  }} data-color="red"></div>
+                    </label>
+                    <label htmlFor='orange'>
+                      <input type="radio" id='orange' name="color" value="orange" hidden />
+                      <div className="colorBox" style={{ background: 'orange', height: '4vh', width: '4vw', border: "1px solid black"   }} data-color="orange"></div>
+                    </label>
+                    <label htmlFor='yellow'>
+                      <input type="radio" id='yellow' name="color" value="yellow" hidden />
+                      <div className="colorBox" style={{ background: 'yellow', height: '4vh', width: '4vw', border: "1px solid black"   }} data-color="yellow"></div>
+                    </label>
+                    <label htmlFor='green'>
+                      <input type="radio" id='green' name="color" value="green" hidden />
+                      <div className="colorBox" style={{ background: 'green', height: '4vh', width: '4vw', border: "1px solid black"   }} data-color="green"></div>
+                    </label>
+                    <label htmlFor='blue'>
+                      <input type="radio" id='blue' name="color" value="blue" hidden />
+                      <div className="colorBox" style={{ background: 'blue', height: '4vh', width: '4vw', border: "1px solid black"   }} data-color="blue"></div>
+                    </label>
+                    <label htmlFor='indigo'>
+                      <input type="radio" id='indigo' name="color" value="indigo" hidden />
+                      <div className="colorBox" style={{ background: 'indigo', height: '4vh', width: '4vw', border: "1px solid black"   }} data-color="indigo"></div>
+                    </label>
+                    <label htmlFor='violet'>
+                      <input type="radio" id='violet' name="color" value="violet" hidden />
+                      <div className="colorBox" style={{ background: 'violet', height: '4vh', width: '4vw', border: "1px solid black"   }} data-color="violet"></div>
+                    </label>
+                    <label htmlFor='black'>
+                      <input type="radio" id='black' name="color" value="black" hidden />
+                      <div className="colorBox" style={{ background: 'black', height: '4vh', width: '4vw', border: "1px solid black"   }} data-color="black"></div>
+                    </label>
+                    <label htmlFor='white'>
+                      <input type="radio" id='white' name="color" value="white" hidden />
+                      <div className="colorBox" style={{ background: 'white', height: '4vh', width: '4vw', border: "1px solid black"   }} data-color="white"></div>
+                    </label>
+                  </div>
+                  
+                  <label className="appFileInput button">
+                    <i className="iconEnter"></i>
+                      <input type="file"
+                        id="local"
+                        accept="image/*"
+                      />
+                  </label>
+                  
+                </div>
+              </div>
               <img
                 id="my-image"
                 src={props.sharedImage.image}
                 alt="Shared Image"
-                width="0"
+                style={{ display: 'none' }} // Keep this hidden
               />
               <label>
                 Description:

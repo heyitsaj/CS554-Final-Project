@@ -80,6 +80,7 @@ export default function ShowCreatedImages() {
         <br />
   
         {createdImages && createdImages.map((createdImage) => {
+          console.log(createdImages.length)
             return (
               <div className='card' key={createdImage._id}>
                 <div className='card-body'>

@@ -30,14 +30,13 @@ export default function SharedImages() {
     return () => unsubscribe();
   }, []);
 
-  // Query for user data only if user is not null
-  const { data: userData, loading: userLoading, error: userError } = useQuery(queries.GET_USER_BY_UID, {
-    variables: { uid: user?.uid },
-    skip: !user
-  });
+  // // Query for user data only if user is not null
+  // const { data: userData, loading: userLoading, error: userError } = useQuery(queries.GET_USER_BY_UID, {
+  //   variables: { uid: user?.uid },
+  //   skip: !user
+  // });
 
-  console.log(userData);
-
+  // console.log(userData);
   // Main query for shared images
   const { loading, error, data } = useQuery(queries.GET_SHARED_IMAGES, {
     fetchPolicy: 'cache-and-network',
@@ -61,10 +60,8 @@ export default function SharedImages() {
     setShowDeleteModal(false);
     navigate("/SharedImages");
   };
-
-
-  if (loading || userLoading) return <div>Loading...</div>;
-  if (error || userError) return <div>Error: {error ? error.message : userError.message}</div>;
+  // if (loading || userLoading) return <div>Loading...</div>;
+  // if (error || userError) return <div>Error: {error ? error.message : userError.message}</div>;
   if (!data) return <div>No data found.</div>;
 
   const { sharedImages } = data;
