@@ -6,16 +6,25 @@ import queries from '../queries';
 import Navigation from './Navigation';
 
 export default function Leaderboard() {
-  const {loading, error, data} = useQuery(queries.GET_LEADERBOARD, {
+  const {loading, error, data} = useQuery(queries.GET_USERS, {
     fetchPolicy: 'cache-and-network'
   });
 
   if (data) {
-    const {createdImages} = data;
+    const {users} = data;
+
     return (
       <div>
         <Navigation />
         <h1>Welcome to the Leaderboard Page!</h1>
+        <h2>Users</h2>
+        <ol>
+            {users && users.map((user) => {
+              return (<li key={user._id}>
+                        User: {user.email} | Number Of Solved Images: {user.numOfSolvedImages}
+                      </li>)
+            })}
+        </ol>
       </div>
     );
   }

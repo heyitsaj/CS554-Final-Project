@@ -80,6 +80,36 @@ const EDIT_SHARED_IMAGE = gql`
   }
 `;
 
+const UPDATE_USER = gql`
+  mutation editUser(
+    $id: String!
+    $numOfCreatedImages: Int
+    $numOfSharedImages: Int
+    $numOfSolvedImages: Int
+  ) {
+    updateUser(
+      _id: $id
+      numOfCreatedImages: $numOfCreatedImages
+      numOfSharedImages: $numOfSharedImages
+      numOfSolvedImages: $numOfSolvedImages
+    ) {
+      _id
+    }
+  }
+`;
+
+const GET_USERS = gql`
+  query {
+    users {
+      _id
+      email
+      numOfSharedImages
+      numOfCreatedImages
+      numOfSolvedImages
+    }
+  }
+`;
+
 const DELETE_SHARED_IMAGE = gql`
   mutation removeSharedImage($id: String!) {
     removeSharedImage(_id: $id) {
@@ -154,28 +184,6 @@ const DELETE_CREATED_IMAGE = gql`
   }
 `;
 
-const GUESS_CREATED_IMAGE = gql`
-  mutation solveCreatedImage(
-    $userId: String!
-    $imageId: String!
-    $guess: String
-  ) {
-    guessCreatedImage(
-      userId: $userId
-      imageId: $imageId
-      guess: $guess
-    ) {
-      _id
-    }
-  }
-`;
-
-const GET_LEADERBOARD = gql`
-  query {
-    leaderboard 
-  }
-`;
-
 let exported = {
   ADD_SHARED_IMAGE,
   GET_SHARED_IMAGES,
@@ -187,8 +195,7 @@ let exported = {
   EDIT_CREATED_IMAGE,
   GUESS_CREATED_IMAGE,
   GET_LEADERBOARD,
-  ADD_USER,
-  GET_USER_BY_UID
+  ADD_USER
 };
 
 export default exported;

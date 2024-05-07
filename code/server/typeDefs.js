@@ -45,6 +45,12 @@ export const typeDefs = `#graphql
       email: String!
       password: String!
     ): User
+    updateUser(
+      _id: String!
+      numOfCreatedImages: Int
+      numOfSharedImages: Int
+      numOfSolvedImages: Int
+    ): User
     addSharedImage(
       userId: String!
       image: String!
