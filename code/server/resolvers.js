@@ -210,6 +210,45 @@ export const resolvers = {
       }
 
       return foundUser;
+    },
+    updateUser: async (_, args) => {
+      const users = await userCollection();
+      let newUser = await users.findOne({_id: args._id});
+      if (newUser) {
+        let sharedImages = args.sharedImages;
+        let createdImages = args.createdImages;
+        let numOfSharedImages = args.numOfSharedImages;
+        let numOfCreatedImages = args.numOfCreatedImages;
+        let numOfSolvedImages = args.numOfSolvedImages;
+
+        if(sharedImages)
+          newUser.sharedImages = sharedImages;
+        if(createdImages)
+          newUser.createdImages = createdImages;
+        if(numOfSharedImages)
+          newUser.numOfSharedImages = numOfSharedImages;
+        if(numOfCreatedImages)
+          newUser.numOfCreatedImages = numOfSharedImages;
+        if(numOfSolvedImages)
+          newUser.numOfSolvedImages = numOfSolvedImages;
+
+        let response = await users.updateOne({_id: args._id}, {$set: newUser});
+        if(response){
+          return newUser;
+        }
+        else{
+          throw new GraphQLError(`Could not update users: ${args._id}`, {
+            extensions: {code: 'INTERNAL_SERVER_ERROR'}
+          });
+        }
+      } else {
+        throw new GraphQLError(
+          `Could not update users with _id of ${args._id}`,
+          {
+            extensions: {code: 'NOT_FOUND'}
+          }
+        );
+      }
     }
   } 
 };
