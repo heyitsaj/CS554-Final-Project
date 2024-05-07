@@ -117,6 +117,7 @@ const Create = () => {
           img.scale(scale / pixelRatio);
 
           fabricCanvasInstance.add(img).renderAll();
+          fabricCanvasInstance.isDrawingMode = false;
         }
       };
       reader.readAsDataURL(e.target.files[0]);
@@ -143,15 +144,30 @@ const Create = () => {
     <div className="drawPad" >
       <Navigation />
       <div className="footer">
-        <p>Brush Size: {size} px</p>
-        <input
-          onChange={handleSizeChange}
-          type="range"
-          orient="vertical"
-          min={1}
-          max={50}
-          value={size}
-        />
+        <div>
+          <div>
+            <p>Brush Size: {size} px</p>
+            <input
+              onChange={handleSizeChange}
+              type="range"
+              orient="vertical"
+              min={1}
+              max={50}
+              value={size}
+            />
+          </div>
+          <div className="toolSelect" onClick={handleColorChange}>
+            <label htmlFor='move'>
+              <input type="radio" id='move' name="color" value="false" hidden />
+              <img className='icon' src='/move-icon.svg' width={100}></img>
+            </label>
+            <label htmlFor='brush'>
+              <input type="radio" id='brush' name="color" value="true" hidden />
+              <img className='icon' src='/draw-icon.svg' width={100}></img>
+            </label>
+          </div>
+        </div>
+        
         <canvas
           id="canvas"
           ref={canvasRef}
