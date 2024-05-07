@@ -200,7 +200,7 @@ export const resolvers = {
         numOfSolvedImages: 0 
       }
 
-      let insertedUser = users.insertOne(newUser);
+      let insertedUser = await users.insertOne(newUser);
       const foundUser = await users.findOne({_id: insertedUser.insertedId});
       if (!foundUser) {
         //can't find the created user
@@ -209,7 +209,7 @@ export const resolvers = {
         });
       }
 
-      return insertedUser;
+      return foundUser;
     }
   } 
 };

@@ -3,11 +3,15 @@ import '../index.css';
 import { signInUser, signUpUser } from '../firebase/firebase-src';
 import { AuthErrorCodes } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import {useQuery, useMutation} from '@apollo/client';
+import queries from '../queries';
 
 function SignUpOrLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+
+    const [addUser] = useMutation(queries.ADD_USER);
 
     const navigate = useNavigate();
 
@@ -52,6 +56,13 @@ function SignUpOrLogin() {
     const onSignUp = async () => {
         try {
             await signUpUser(email, password);
+            addUser({
+                variables: {
+                  email: email,
+                  password: password
+                }
+              });
+          
             setError('');
             alert('Welcome to Pictogram! Please login with your credentials to begin using the app.');
         } catch (e) {

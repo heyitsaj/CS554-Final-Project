@@ -1,5 +1,20 @@
 import {gql} from '@apollo/client';
 
+const ADD_USER = gql`
+  mutation createUser(
+    $email: String!
+    $password: String!
+  ) {
+    addUser(
+      email: $email
+      password: $password
+    ) 
+    {
+      email
+    }
+    }
+`;
+
 const GET_SHARED_IMAGES = gql`
   query {
     sharedImages {
@@ -160,7 +175,8 @@ let exported = {
   EDIT_SHARED_IMAGE,
   EDIT_CREATED_IMAGE,
   GUESS_CREATED_IMAGE,
-  GET_LEADERBOARD
+  GET_LEADERBOARD,
+  ADD_USER
 };
 
 export default exported;
