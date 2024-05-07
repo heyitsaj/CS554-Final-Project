@@ -15,6 +15,7 @@ const Create = () => {
   const [color, setColor] = useState('black');
   const [size, setSize] = useState(5);
   const [user, setUser] = useState(null);
+  const [brush, setBrush] = useState(true);
 
   const [addCreatedImage] = useMutation(queries.ADD_CREATED_IMAGE, {
     update(cache, {data: {addCreatedImage}}) {
@@ -76,6 +77,13 @@ const Create = () => {
   const handleColorChange = (e) => {
     setColor(e.target.value)
   }
+  const handleTool = (e) => {
+    if(e.target.value == "brush"){
+      setBrush(true);
+    }else{
+      setBrush(false);
+    }
+  }
   useEffect(() => {
     const canvas = canvasRef.current;
 
@@ -94,7 +102,7 @@ const Create = () => {
 
     fabricCanvas.current = fabricCanvasInstance;
 
-    fabricCanvasInstance.isDrawingMode = true;
+    fabricCanvasInstance.isDrawingMode = brush;
 
     fabricCanvasInstance.freeDrawingBrush.color = color;
     fabricCanvasInstance.freeDrawingBrush.width = size;
@@ -127,7 +135,11 @@ const Create = () => {
       fabricCanvasInstance.dispose();
     };
   }, []);
-
+  useEffect(() => {
+    if (fabricCanvas.current) {
+      fabricCanvas.current.isDrawingMode = brush;
+    }
+  }, [brush]);
   useEffect(() => {
     if (fabricCanvas.current) {
       fabricCanvas.current.freeDrawingBrush.width = size;
@@ -145,7 +157,7 @@ const Create = () => {
       <Navigation />
       <div className="footer">
         <div>
-          <div>
+          <div style={{display: "flex", flexDirection: "row"}}>
             <p>Brush Size: {size} px</p>
             <input
               onChange={handleSizeChange}
@@ -156,13 +168,13 @@ const Create = () => {
               value={size}
             />
           </div>
-          <div className="toolSelect" onClick={handleColorChange}>
+          <div className="toolSelect" style={{display:"flex", flexDirection:"column"}} onClick={handleTool}>
             <label htmlFor='move'>
-              <input type="radio" id='move' name="color" value="false" hidden />
+              <input type="radio" id='move' name="color" value="move" hidden />
               <img className='icon' src='/move-icon.svg' width={100}></img>
             </label>
             <label htmlFor='brush'>
-              <input type="radio" id='brush' name="color" value="true" hidden />
+              <input type="radio" id='brush' name="color" value="brush" hidden />
               <img className='icon' src='/draw-icon.svg' width={100}></img>
             </label>
           </div>
