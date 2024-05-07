@@ -29,6 +29,8 @@ function SignUpOrLogin() {
     const onLogin = async () => {
         try {
             await signInUser(email, password);
+            setEmail('');
+            setPassword('');
             setError('');
             navigate('/');
         } catch (e) {
@@ -55,14 +57,17 @@ function SignUpOrLogin() {
 
     const onSignUp = async () => {
         try {
-            await signUpUser(email, password);
+            const user = await signUpUser(email, password);
+            console.log(user.user.uid);
+            console.log(user.user.email);
             addUser({
                 variables: {
-                  email: email,
-                  password: password
+                  uid: user.user.uid,
+                  email: user.user.email
                 }
-              });
-          
+            });
+            setEmail('');
+            setPassword('');
             setError('');
             alert('Welcome to Pictogram! Please login with your credentials to begin using the app.');
         } catch (e) {

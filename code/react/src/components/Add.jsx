@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
-
+import React, {useState, useEffect} from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import {auth} from '../firebase/firebase-src'
 import {useQuery, useMutation} from '@apollo/client';
 //Import the file where my query constants are defined
 import queries from '../queries';
@@ -9,6 +10,27 @@ function Add(props) {
   
   const [selectedFile, setSelectedFile] = useState(null);
   const [base64URL, setBase64URL] = useState(null);
+  const [user, setUser] = useState(null);
+
+  // Collect user data
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);  
+      } else {
+        setUser(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Query for user data only if user is not null
+  const { data: userData, loading: userLoading, error: userError } = useQuery(queries.GET_USER_BY_UID, {
+    variables: { uid: user?.uid },
+    skip: !user
+  });
+
+  console.log(userData);
 
   const [addSharedImage] = useMutation(queries.ADD_SHARED_IMAGE, {
     update(cache, {data: {addSharedImage}}) {
@@ -39,11 +61,10 @@ function Add(props) {
     try{
       let description = document.getElementById('description');
       let image = document.getElementById('uploaded-image');
-      let userId = "1";
 
       addSharedImage({
         variables: {
-          userId: userId,
+          userId: user.uid,
           image: base64URL,
           dateFormed: "03/31/1994",
           description: description.value,
@@ -64,11 +85,10 @@ function Add(props) {
     try{
       let description = document.getElementById('description');
       let image = document.getElementById('uploaded-image');
-      let userId = "1";
 
       addCreatedImage({
         variables: {
-          userId: userId,
+          userId: user.uid,
           image: base64URL,
           dateFormed: new Date(),
           description: description.value,
