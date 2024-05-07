@@ -79,6 +79,7 @@ export default function SharedImages() {
           <div className='card-body'>
             <h2 className='card-title'>{sharedImage._id}</h2>
             <img src={sharedImage.image} alt="Shared" width="500" />
+            <p>Created on {new Date(sharedImage.dateFormed).toLocaleDateString()} by GET USER HERE</p>
             <p>Description: {sharedImage.description}</p>
             <button className='button' onClick={() => handleOpenEditModal(sharedImage)}>Edit</button>
             <button className='button' onClick={() => handleOpenDeleteModal(sharedImage)}>Delete</button>

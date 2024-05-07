@@ -91,6 +91,7 @@ export default function ShowCreatedImages() {
                     Image: {createdImage._id}
                   </h3>
                   <img src={createdImage.image} alt="Created Image" width="500" height="600"></img>
+                  <p>Created on {new Date(createdImage.dateFormed).toLocaleDateString()} by GET USER HERE</p>
                   <p>Description: {createdImage.description}</p>
                   {
                     createdImage.solvedBy !== "none" ? 
