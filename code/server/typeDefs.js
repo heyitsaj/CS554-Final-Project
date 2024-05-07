@@ -42,8 +42,8 @@ export const typeDefs = `#graphql
 
   type Mutation {
     addUser(
+      uid: String!
       email: String!
-      password: String!
     ): User
     updateUser(
       _id: String!

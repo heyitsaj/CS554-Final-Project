@@ -10,8 +10,6 @@ const ADD_USER = gql`
       email: $email
     ) 
     {
-      _id
-      uid
       email
     }
   }

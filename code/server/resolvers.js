@@ -190,9 +190,8 @@ export const resolvers = {
       console.log(args);
 
       let newUser = {
-        _id: new ObjectId(),
+        _id: args.uid,
         email: args.email,
-        password: args.password,
         sharedImages: [],
         createdImages: [],
         numOfSharedImages: 0,
