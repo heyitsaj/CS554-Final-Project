@@ -5,6 +5,7 @@
     background-color: #f8f9fa; /* Light gray background */
     padding: 10px;
     border-bottom: 2px solid #ccc; /* Optional bottom border */
+    border-radius: 15px;
   }
   
   .nav-link {

@@ -5,6 +5,7 @@ import Add from './Add';
 import EditSharedImageModal from './EditSharedImageModal';
 import DeleteSharedImageModal from './DeleteSharedImageModal';
 import Navigation from './Navigation';
+import './SharedImages.css'
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase/firebase-src';
 import * as userHelper from "./UserHelpers.js";
@@ -70,7 +71,7 @@ export default function SharedImages() {
     });
     const users = usersData.data.users;
     return (
-      <div>
+      <div className='sharedImagesPage'>
         <Navigation />
         <h1>Welcome to the Shared Images Page!</h1>
         <h3>Here you can upload images and edit images if you are signed up and logged in.</h3>
