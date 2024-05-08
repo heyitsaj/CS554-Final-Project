@@ -18,6 +18,7 @@ export default function ShowCreatedImages() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [user, setUser] = useState(null);
   const [sortOrder, setSortOrder] = useState('descending');
+  const [showSolved, setShowSolved] = useState(false);
   const navigate = useNavigate();
 
   const [editCreatedImage] = useMutation(queries.EDIT_CREATED_IMAGE);
@@ -96,13 +97,16 @@ export default function ShowCreatedImages() {
   };
   
   if(data && usersData && usersData.data && usersData.data.users){
-    const createdImages = [...data.createdImages];
+    let createdImages = [...data.createdImages];
 
     createdImages.sort((a, b) => {
       const dateA = new Date(a.dateFormed);
       const dateB = new Date(b.dateFormed);
       return sortOrder === 'ascending' ? dateA - dateB : dateB - dateA;
     });
+    if (!showSolved) {
+      createdImages = createdImages.filter((img) => img.solvedBy === 'none');
+    }
     const users = usersData.data.users;
     return (
       <div>
@@ -119,6 +123,15 @@ export default function ShowCreatedImages() {
             <option value='ascending'>Oldest to Newest</option>
             <option value='descending'>Newest to Oldest</option>
           </select>
+        </div>
+        <div style={{display:"flex",alignItems:"center"}}>
+          <label htmlFor="showSolved">Show solved drawings</label>
+          <input
+            type="checkbox"
+            id="showSolved"
+            checked={showSolved}
+            onChange={(e) => setShowSolved(e.target.checked)}
+          />
         </div>
         <br />
         <br />
