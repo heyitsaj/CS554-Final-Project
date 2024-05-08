@@ -68,7 +68,7 @@ const Create = () => {
         description: description
       }
     });
-    navigate('/ShowCreatedImages')
+    navigate('/')
   }
 
   const handleSizeChange = (e) => {

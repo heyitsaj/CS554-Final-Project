@@ -38,7 +38,6 @@ export default function SharedImages() {
     return () => unsubscribe();
   }, []);
 
-
   const handleOpenEditModal = (image) => {
     setShowEditModal(true);
     setEditImage(image);
@@ -77,9 +76,9 @@ export default function SharedImages() {
       return undefined;
   };
 
-  //if (loading || userLoading) return <div>Loading...</div>;
-  //if (error || userError) return <div>Error: {error ? error.message : userError.message}</div>;
-  //if (!data) return <div>No data found.</div>;
+  // if (loading || userLoading) return <div>Loading...</div>;
+  // if (error || userError) return <div>Error: {error ? error.message : userError.message}</div>;
+  // if (!data) return <div>No data found.</div>;
 
   if(data && usersData && usersData.data && usersData.data.users){
     const { sharedImages } = data;
@@ -95,7 +94,7 @@ export default function SharedImages() {
         {sharedImages.map((sharedImage) => (
           <div className='card' key={sharedImage._id}>
             <div className='card-body'>
-              <h2 className='card-title'>User posted by: {renderUserEmail(users, sharedImage.userId)}</h2>
+              <h2 className='card-title'>Post By: {renderUserEmail(users, sharedImage.userId)}</h2>
               
               <img src={sharedImage.image} alt="Shared" width="500" />
               <p>Description: {sharedImage.description}</p>

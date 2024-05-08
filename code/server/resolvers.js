@@ -78,9 +78,12 @@ export const resolvers = {
       const sharedImages = await sharedImagesCollection();
       let newSharedImage = await sharedImages.findOne({_id: args._id});
       console.log(newSharedImage); 
+      console.log(args)
       if (newSharedImage) {
         let description = args.description.trim();
+        let image = args.image.trim()
         newSharedImage.description = description;
+        newSharedImage.image = image;
 
         // remove old album collection cache for updated image
         let response = await sharedImages.updateOne({_id: args._id}, {$set: newSharedImage});
