@@ -23,7 +23,25 @@ const customStyles = {
 function EditSharedImageModal(props) {
   const [showEditModal, setShowEditModal] = useState(props.isOpen);
   const { loading, error, data } = useQuery(queries.GET_SHARED_IMAGES);
-  const [editSharedImage] = useMutation(queries.EDIT_SHARED_IMAGE);
+    const [editSharedImage] = useMutation(queries.EDIT_SHARED_IMAGE, {
+    update(cache, { data: { editSharedImage } }) {
+      // Find the relevant cache data to update
+      const existingData = cache.readQuery({
+        query: queries.GET_SHARED_IMAGES,
+      });
+      // Update the specific image in the cache
+      const updatedData = existingData.sharedImages.map((image) =>
+        {
+          image._id === editSharedImage._id ? editSharedImage : image
+        }
+      );
+      // Write the updated data back to the cache
+      cache.writeQuery({
+        query: queries.GET_SHARED_IMAGES,
+        data: { sharedImages: updatedData },
+      });
+    },
+  });
   const fabricCanvas = useRef(null);
   const [canvas, setCanvas] = useState(null);
   const canvasRef = useRef(null);
@@ -152,6 +170,7 @@ function EditSharedImageModal(props) {
             e.preventDefault();
 
             const description = document.getElementById('description').value;
+
             editSharedImage({
               variables: {
                 id: props.sharedImage._id,
