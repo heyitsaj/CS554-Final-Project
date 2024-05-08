@@ -18,6 +18,13 @@ export default function SharedImages() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
+  // Main query for shared images
+  const { loading, error, data } = useQuery(queries.GET_SHARED_IMAGES, {
+      fetchPolicy: 'cache-and-network',
+  });
+    
+  const usersData = useQuery(queries.GET_USERS);
+
   // Collect user data
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -27,21 +34,11 @@ export default function SharedImages() {
         setUser(null);
       }
     });
+
     return () => unsubscribe();
   }, []);
 
-  // Query for user data only if user is not null
-  const { data: userData, loading: userLoading, error: userError } = useQuery(queries.GET_USER_BY_UID, {
-    variables: { uid: user?.uid },
-    skip: !user
-  });
 
-  console.log(userData);
-
-  // Main query for shared images
-  const { loading, error, data } = useQuery(queries.GET_SHARED_IMAGES, {
-    fetchPolicy: 'cache-and-network',
-  });
   const handleOpenEditModal = (image) => {
     setShowEditModal(true);
     setEditImage(image);
@@ -62,34 +59,55 @@ export default function SharedImages() {
     navigate("/SharedImages");
   };
 
+  const getUser = (users, userId) => {
+    if(users){
+      let user = users.find((user) => user._id === userId);
+      if(user)
+        return user;
+      else
+        return undefined;
+    }
+  };
 
-  if (loading || userLoading) return <div>Loading...</div>;
-  if (error || userError) return <div>Error: {error ? error.message : userError.message}</div>;
-  if (!data) return <div>No data found.</div>;
+  const renderUserEmail= (users, userId) => {
+    let user = getUser(users, userId);
+    if(user && user.email)
+      return user.email;
+    else
+      return undefined;
+  };
 
-  const { sharedImages } = data;
+  //if (loading || userLoading) return <div>Loading...</div>;
+  //if (error || userError) return <div>Error: {error ? error.message : userError.message}</div>;
+  //if (!data) return <div>No data found.</div>;
 
-  return (
-    <div>
-      <h1>Welcome to the Shared Images Page!</h1>
-      <h3>Here you can upload images and edit images.</h3>
-      <Navigation />
-      <button className='button' onClick={() => setShowAddForm(!showAddForm)}>Upload Shared Image</button>
-      {showAddForm && <Add type='sharedImage' closeAddFormState={closeAddFormState} />}
-      <br /><br />
-      {sharedImages.map((sharedImage) => (
-        <div className='card' key={sharedImage._id}>
-          <div className='card-body'>
-            <h2 className='card-title'>{sharedImage._id}</h2>
-            <img src={sharedImage.image} alt="Shared" width="500" />
-            <p>Description: {sharedImage.description}</p>
-            <button className='button' onClick={() => handleOpenEditModal(sharedImage)}>Edit</button>
-            <button className='button' onClick={() => handleOpenDeleteModal(sharedImage)}>Delete</button>
+  if(data && usersData && usersData.data && usersData.data.users){
+    const { sharedImages } = data;
+    const users = usersData.data.users;
+    return (
+      <div>
+        <h1>Welcome to the Shared Images Page!</h1>
+        <h3>Here you can upload images and edit images.</h3>
+        <Navigation />
+        <button className='button' onClick={() => setShowAddForm(!showAddForm)}>Upload Shared Image</button>
+        {showAddForm && <Add type='sharedImage' closeAddFormState={closeAddFormState} />}
+        <br /><br />
+        {sharedImages.map((sharedImage) => (
+          <div className='card' key={sharedImage._id}>
+            <div className='card-body'>
+              <h2 className='card-title'>User posted by: {renderUserEmail(users, sharedImage.userId)}</h2>
+              
+              <img src={sharedImage.image} alt="Shared" width="500" />
+              <p>Description: {sharedImage.description}</p>
+              <button className='button' onClick={() => handleOpenEditModal(sharedImage)}>Edit</button>
+              <button className='button' onClick={() => handleOpenDeleteModal(sharedImage)}>Delete</button>
+            </div>
           </div>
-        </div>
-      ))}
-      {showEditModal && <EditSharedImageModal isOpen={showEditModal} sharedImage={editImage} handleClose={handleCloseModals} />}
-      {showDeleteModal && <DeleteSharedImageModal isOpen={showDeleteModal} handleClose={handleCloseModals} deleteImage={deleteImage} />}
-    </div>
-  );
+        ))}
+        {showEditModal && <EditSharedImageModal isOpen={showEditModal} sharedImage={editImage} handleClose={handleCloseModals} />}
+        {showDeleteModal && <DeleteSharedImageModal isOpen={showDeleteModal} handleClose={handleCloseModals} deleteImage={deleteImage} />}
+      </div>
+    );
+  }
+  else {return <div>No data found.</div>;}
 }

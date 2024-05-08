@@ -1,0 +1,60 @@
+/* Home.css */
+.nav-bar {
+  display: flex;
+  justify-content: center; /* Centers the links horizontally */
+  background-color: #f8f9fa; /* Light gray background */
+  padding: 10px;
+  border-bottom: 2px solid #ccc; /* Optional bottom border */
+}
+
+.nav-link {
+  margin: 0 15px; /* Adds space between links */
+  text-decoration: none; /* Removes underlines */
+  color: #007bff; /* Link color */
+  font-weight: bold;
+}
+
+.nav-link:hover {
+  text-decoration: underline; /* Adds underline on hover */
+  color: #0056b3; /* Darker blue on hover */
+}
+.toolSelect {
+  background-color: gray;
+}
+.drawPad {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+}
+
+.uploads {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+input {
+  font-size: 20px;
+  line-height: 1.5em;
+  padding: 15px;
+  font-family: Calibri, sans-serif;
+  min-height: 64px;
+}
+
+table {
+  text-align: left;
+}
+
+.userEmailCol {
+  text-align: left;
+}
+
+.userSolvedCol {
+  text-align: left;
+}
