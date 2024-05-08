@@ -66,7 +66,7 @@ function Add(props) {
         variables: {
           userId: user.uid,
           image: base64URL,
-          dateFormed: "03/31/1994",
+          dateFormed: new Date(),
           description: description.value,
         }
       });

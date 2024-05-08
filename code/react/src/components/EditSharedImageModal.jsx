@@ -3,6 +3,7 @@ import ReactModal from 'react-modal';
 import { useQuery, useMutation} from '@apollo/client';
 import { fabric } from 'fabric';
 import queries from '../queries';
+import './Created.css'
 
 ReactModal.setAppElement('#root');
 
@@ -13,7 +14,6 @@ const customStyles = {
     right: 'auto',
     bottom: '10px',
     transform: 'translate(-50%, -50%)',
-    width: '80vw', // Default to a flexible width and height
     height: '80vh',
     border: '1px solid #28547a',
     borderRadius: '4px',
