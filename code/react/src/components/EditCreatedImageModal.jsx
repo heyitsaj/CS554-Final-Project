@@ -91,7 +91,7 @@ function EditCreatedImageModal(props) {
                 </div>
           </div>
           <button className='button add-button' type='submit'>
-            Update CreatedImage
+            Update Created Image
           </button>
         </form>
 
