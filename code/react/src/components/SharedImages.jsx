@@ -79,9 +79,8 @@ export default function SharedImages() {
         {sharedImages.map((sharedImage) => (
           <div className='card' key={sharedImage._id}>
             <div className='card-body'>
-              <h2 className='card-title'>Post By: {userHelper.renderUserEmail(users, sharedImage.userId)}</h2>
-              
               <img src={sharedImage.image} alt="Shared" width="500" />
+              <p>Created on {new Date(sharedImage.dateFormed).toLocaleDateString()} at {new Date(sharedImage.dateFormed).getHours().toString()}:{new Date(sharedImage.dateFormed).getMinutes().toString()} by {userHelper.renderUserEmail(users, sharedImage.userId)}</p>
               <p>Description: {sharedImage.description}</p>
               <button className='button' onClick={() => handleOpenEditModal(sharedImage)}>Edit</button>
               <button className='button' onClick={() => handleOpenDeleteModal(sharedImage)}>Delete</button>

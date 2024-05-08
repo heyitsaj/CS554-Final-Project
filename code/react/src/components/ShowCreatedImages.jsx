@@ -89,7 +89,7 @@ export default function ShowCreatedImages() {
               <div className='card' key={createdImage._id}>
                 <div className='card-body'>
                   <img src={createdImage.image} alt="Created Image" width="500" height="600"></img>
-                  <p>Created on {new Date(createdImage.dateFormed).toLocaleDateString()} by {userHelper.renderUserEmail(users, createdImage.userId)}</p>
+                  <p>Created on {new Date(createdImage.dateFormed).toLocaleDateString()} at {new Date(createdImage.dateFormed).getHours().toString()}:{new Date(createdImage.dateFormed).getMinutes().toString()} by {userHelper.renderUserEmail(users, createdImage.userId)}</p>
                   <p>Description: {createdImage.description}</p>
                   {
                     createdImage.solvedBy !== "none" ? 
