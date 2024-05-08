@@ -95,7 +95,13 @@ export default function ShowCreatedImages() {
   };
   
   if(data && usersData && usersData.data && usersData.data.users){
-    const {createdImages} = data;
+    const createdImages = [...data.createdImages];
+
+    createdImages.sort((a, b) => {
+      const dateA = new Date(a.dateFormed);
+      const dateB = new Date(b.dateFormed);
+      return dateB - dateA; // Sorting in descending order (newest first)
+    });
     const users = usersData.data.users;
     return (
       <div>
