@@ -44,7 +44,7 @@ export default function ShowCreatedImages() {
   const usersData = useQuery(queries.GET_USERS);
 
   const handleGuess = (users, image) => {
-    let guess = document.getElementById('guessInput').value;
+    let guess = document.getElementById(image._id).value;
     if(guess && guess.trim() !== ""){
       // check if guess matches image description
       if(guess === image.description) { // guessed correct, update database
@@ -69,7 +69,7 @@ export default function ShowCreatedImages() {
           });
         }
 
-        navigate('/');
+        navigate('/Leaderboard');
       }
       else{
         alert("INCORRECT GUESS");
@@ -111,7 +111,7 @@ export default function ShowCreatedImages() {
                     <div className='form-group'>
                       <label>
                           Guess:
-                        <input id='guessInput' />
+                        <input id={createdImage._id}/>
                       </label>
                     </div>
                   <button

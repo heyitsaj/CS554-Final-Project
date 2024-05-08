@@ -59,7 +59,7 @@ const Create = () => {
     console.log(`KEYS: ${Object.keys(e)}`);
     const canvas = document.getElementById("canvas");
     const dataURL = canvas.toDataURL();
-    const description = "test description";
+    const description = document.getElementById("description").value ? document.getElementById("description").value : "";
     addCreatedImage({
       variables: {
         userId: user.uid,
@@ -68,7 +68,7 @@ const Create = () => {
         description: description
       }
     });
-    navigate('/')
+    navigate('/ShowCreatedImages');
   }
 
   const handleSizeChange = (e) => {
@@ -193,7 +193,7 @@ const Create = () => {
               <p>
               Pictogram Answer:
               </p>
-              <input name="pictogramAnswer" 
+              <input name="pictogramAnswer" id="description"
               />
               <button type="submit">Submit Pictogram!</button>
             </label>
