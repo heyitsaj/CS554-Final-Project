@@ -30,7 +30,7 @@ function DeleteSharedImageModal(props) {
     update(cache) {
       cache.modify({
         fields: {
-          createdImages(existingImages, { readField }) {
+          sharedImages(existingImages, { readField }) {
             return existingImages.filter(
               empRef => image._id !== readField('_id', empRef),
             );
