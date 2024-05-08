@@ -48,27 +48,33 @@ export default function ShowCreatedImages() {
     if(guess && guess.trim() !== ""){
       // check if guess matches image description
       if(guess === image.description) { // guessed correct, update database
-        let user = userHelper.getUser(users, image.userId);
-        if(user){
+        let solvedUser = userHelper.getUser(users, user.uid);
+        if(solvedUser){
           editCreatedImage({
             variables: {
               id: image._id,
               userId: image.userId,
               image: image.image,
               description: image.description,
-              solvedBy: user.email
+              solvedBy: solvedUser.email
             }
           });
   
-          let newSolvedImages = user.numOfSolvedImages + 1;
+          let newSolvedImages = solvedUser.numOfSolvedImages + 1;
           updateUser({
             variables: {
-              id: user._id,
+              id: solvedUser._id,
               numOfSolvedImages: newSolvedImages
             }
           });
         }
-        alert("CORRECT !");
+
+        if(solvedUser._id === image.userId){
+          alert("You solved, your own image. Congrats. -__-");
+        }
+        else{
+          alert("CORRECT !");
+        }
         navigate('/Leaderboard');
       }
       else{
@@ -135,6 +141,8 @@ export default function ShowCreatedImages() {
                     </button>
                     <br />
                     <br />
+                    {showEditModal && <EditCreatedImageModal isOpen={showEditModal} user={user} sharedImage={editImage} handleClose={handleCloseModals} />}
+                    {showDeleteModal && <DeleteCreatedImageModal isOpen={showDeleteModal} handleClose={handleCloseModals} deleteImage={deleteImage} />}
                     </div>
                   </div>
                 );
@@ -164,6 +172,8 @@ export default function ShowCreatedImages() {
                       </button>}
                       <br />
                       <br />
+                      {showEditModal && <EditCreatedImageModal isOpen={showEditModal} user={user} sharedImage={editImage} handleClose={handleCloseModals} />}
+                      {showDeleteModal && <DeleteCreatedImageModal isOpen={showDeleteModal} handleClose={handleCloseModals} deleteImage={deleteImage} />}
                     </div>
                   </div>
                 );

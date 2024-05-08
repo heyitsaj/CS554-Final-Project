@@ -95,7 +95,7 @@ export const resolvers = {
         if(inArr == false){
           newSharedImage.contributors = [...newSharedImage.contributors,args.userId]
         }
-        // remove old album collection cache for updated image
+        // remove old shared image collection cache for updated image
         let response = await sharedImages.updateOne({_id: args._id}, {$set: newSharedImage});
         if(response){
           return newSharedImage;
