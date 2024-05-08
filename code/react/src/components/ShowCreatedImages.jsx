@@ -93,10 +93,10 @@ export default function ShowCreatedImages() {
     const users = usersData.data.users;
     return (
       <div>
-        
+        <Navigation />    
         <h1>Welcome to the Created Images Page!</h1>
         <h3>Here you can guess drawings!</h3>
-        <Navigation />
+
         <br />
         <br />
   
