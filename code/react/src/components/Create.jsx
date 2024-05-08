@@ -62,7 +62,7 @@ const Create = () => {
     const description = "test description";
     addCreatedImage({
       variables: {
-        userId: "1",
+        userId: user.uid,
         image: dataURL,
         dateFormed: new Date(),
         description: description

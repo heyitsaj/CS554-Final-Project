@@ -8,6 +8,7 @@ import DeleteSharedImageModal from './DeleteSharedImageModal';
 import Navigation from './Navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase/firebase-src';
+import * as userHelper from "./UserHelpers.js";
 
 export default function SharedImages() {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -58,23 +59,7 @@ export default function SharedImages() {
     navigate("/SharedImages");
   };
 
-  const getUser = (users, userId) => {
-    if(users){
-      let user = users.find((user) => user._id === userId);
-      if(user)
-        return user;
-      else
-        return undefined;
-    }
-  };
 
-  const renderUserEmail= (users, userId) => {
-    let user = getUser(users, userId);
-    if(user && user.email)
-      return user.email;
-    else
-      return undefined;
-  };
 
   // if (loading || userLoading) return <div>Loading...</div>;
   // if (error || userError) return <div>Error: {error ? error.message : userError.message}</div>;
@@ -94,7 +79,7 @@ export default function SharedImages() {
         {sharedImages.map((sharedImage) => (
           <div className='card' key={sharedImage._id}>
             <div className='card-body'>
-              <h2 className='card-title'>Post By: {renderUserEmail(users, sharedImage.userId)}</h2>
+              <h2 className='card-title'>Post By: {userHelper.renderUserEmail(users, sharedImage.userId)}</h2>
               
               <img src={sharedImage.image} alt="Shared" width="500" />
               <p>Description: {sharedImage.description}</p>

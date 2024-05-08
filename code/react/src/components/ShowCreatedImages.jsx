@@ -6,6 +6,7 @@ import queries from '../queries'
 import EditCreatedImageModal from './EditCreatedImageModal';
 import DeleteCreatedImageModal from './DeleteCreatedImageModal';
 import Navigation from './Navigation';
+import * as userHelper from "./UserHelpers.js";
 
 export default function ShowCreatedImages() {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -20,6 +21,8 @@ export default function ShowCreatedImages() {
   const {loading, error, data} = useQuery(queries.GET_CREATED_IMAGES, {
     fetchPolicy: 'cache-and-network'
   });
+
+  const usersData = useQuery(queries.GET_USERS);
 
   const handleGuess = (image) => {
     if(guess && guess.trim() !== ""){
@@ -68,8 +71,9 @@ export default function ShowCreatedImages() {
     setShowDeleteModal(false);
   };
   
-  if (data) {
+  if(data && usersData && usersData.data && usersData.data.users){
     const {createdImages} = data;
+    const users = usersData.data.users;
     return (
       <div>
         
@@ -84,14 +88,8 @@ export default function ShowCreatedImages() {
             return (
               <div className='card' key={createdImage._id}>
                 <div className='card-body'>
-                  <h2 className='card-title'>
-                  {createdImage._id}
-                  </h2>
-                  <h3 className='card-title'>
-                    Image: {createdImage._id}
-                  </h3>
                   <img src={createdImage.image} alt="Created Image" width="500" height="600"></img>
-                  <p>Created on {new Date(createdImage.dateFormed).toLocaleDateString()} by GET USER HERE</p>
+                  <p>Created on {new Date(createdImage.dateFormed).toLocaleDateString()} by {userHelper.renderUserEmail(users, createdImage.userId)}</p>
                   <p>Description: {createdImage.description}</p>
                   {
                     createdImage.solvedBy !== "none" ? 
