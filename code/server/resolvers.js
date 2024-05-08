@@ -90,8 +90,11 @@ export const resolvers = {
         let image = args.image.trim()
         newSharedImage.description = description;
         newSharedImage.image = image;
-        newSharedImage.contributors = [...newSharedImage.contributors,args.userId]
-        console.log(newSharedImage.contributors)
+        let inArr = false;
+        newSharedImage.contributors.forEach((contributor) => {if (contributor == args.userId) {inArr = true}})
+        if(inArr == false){
+          newSharedImage.contributors = [...newSharedImage.contributors,args.userId]
+        }
         // remove old album collection cache for updated image
         let response = await sharedImages.updateOne({_id: args._id}, {$set: newSharedImage});
         if(response){

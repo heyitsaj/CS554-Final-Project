@@ -33,6 +33,7 @@ const GET_SHARED_IMAGES = gql`
       userId
       dateFormed
       description
+      contributors
     }
   }
 `;

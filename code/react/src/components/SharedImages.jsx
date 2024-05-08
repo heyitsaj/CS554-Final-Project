@@ -78,8 +78,16 @@ export default function SharedImages() {
           <div className='card' key={sharedImage._id}>
             <div className='card-body'>
               <img src={sharedImage.image} alt="Shared" width="500" />
-              <p>Created on {new Date(sharedImage.dateFormed).toLocaleDateString()} at {new Date(sharedImage.dateFormed).getHours().toString()}:{new Date(sharedImage.dateFormed).getMinutes().toString()} by {userHelper.renderUserEmail(users, sharedImage.userId)}</p>
+              <p>Created on {new Date(sharedImage.dateFormed).toLocaleDateString()} at {new Date(sharedImage.dateFormed).toLocaleTimeString()} by {userHelper.renderUserEmail(users, sharedImage.userId)}</p>
               <p>Description: {sharedImage.description}</p>
+              {sharedImage.contributors && sharedImage.contributors.length > 0 ?
+              <>
+                <p>Modified By:</p>
+                <ul>
+                  {sharedImage.contributors.map((contributor) => <li key={contributor}>{userHelper.renderUserEmail(users,contributor)}</li>)}
+                </ul>
+              </>
+              : <></>}
               {user ? 
               <>
                 <button className='button' onClick={() => handleOpenEditModal(sharedImage)}>Edit</button>

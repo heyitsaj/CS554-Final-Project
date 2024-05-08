@@ -109,7 +109,7 @@ export default function ShowCreatedImages() {
                   <div className='card' key={createdImage._id}>
                     <div className='card-body'>
                       <img src={createdImage.image} alt="Created Image" width="500" height="600"></img>
-                      <p>Created on {new Date(createdImage.dateFormed).toLocaleDateString()} by {userHelper.renderUserEmail(users, createdImage.userId)}</p>
+                      <p>Created on {new Date(createdImage.dateFormed).toLocaleDateString()} at {new Date(createdImage.dateFormed).toLocaleTimeString()} by {userHelper.renderUserEmail(users, createdImage.userId)}</p>
                       <div className='form-group'>
                         <label>
                             Guess:
