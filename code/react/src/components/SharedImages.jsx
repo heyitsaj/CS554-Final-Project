@@ -67,9 +67,9 @@ export default function SharedImages() {
     const users = usersData.data.users;
     return (
       <div>
+        <Navigation />
         <h1>Welcome to the Shared Images Page!</h1>
         <h3>Here you can upload images and edit images.</h3>
-        <Navigation />
         <button className='button' onClick={() => setShowAddForm(!showAddForm)}>Upload Shared Image</button>
         {showAddForm && <Add type='sharedImage' closeAddFormState={closeAddFormState} />}
         <br /><br />
