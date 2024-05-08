@@ -16,6 +16,7 @@ const Create = () => {
   const [size, setSize] = useState(5);
   const [user, setUser] = useState(null);
   const [brush, setBrush] = useState(true);
+  const [error, setError] = useState("")
 
   const [addCreatedImage] = useMutation(queries.ADD_CREATED_IMAGE, {
     update(cache, {data: {addCreatedImage}}) {
@@ -60,6 +61,9 @@ const Create = () => {
     const canvas = document.getElementById("canvas");
     const dataURL = canvas.toDataURL();
     const description = document.getElementById("description").value ? document.getElementById("description").value : "";
+    if(description.trim() == ""){
+      return setError("Please provide a valid pictogram answer!")
+    }
     addCreatedImage({
       variables: {
         userId: user.uid,
@@ -189,6 +193,7 @@ const Create = () => {
         />
         <div className="uploads">
           <form onSubmit={handleSubmit}>
+            {error && <p className='error-message'>{error}</p>}
             <label className="pictogramAnswer">
               <p>
               Pictogram Answer:
