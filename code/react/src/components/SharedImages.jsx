@@ -20,9 +20,7 @@ export default function SharedImages() {
   const navigate = useNavigate();
 
   // Main query for shared images
-  const { loading, error, data } = useQuery(queries.GET_SHARED_IMAGES, {
-      fetchPolicy: 'cache-and-network',
-  });
+  const { loading, error, data } = useQuery(queries.GET_SHARED_IMAGES);
     
   const usersData = useQuery(queries.GET_USERS);
 
@@ -56,7 +54,6 @@ export default function SharedImages() {
   const handleCloseModals = () => {
     setShowEditModal(false);
     setShowDeleteModal(false);
-    navigate("/SharedImages");
   };
 
 

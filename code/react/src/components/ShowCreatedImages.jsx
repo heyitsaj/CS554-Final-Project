@@ -102,38 +102,69 @@ export default function ShowCreatedImages() {
   
         {createdImages && createdImages.map((createdImage) => {
             console.log(createdImages.length)
+            
             if(createdImage.solvedBy === "none"){
-              return (
-                <div className='card' key={createdImage._id}>
-                  <div className='card-body'>
-                    <img src={createdImage.image} alt="Created Image" width="500" height="600"></img>
-                    <p>Created on {new Date(createdImage.dateFormed).toLocaleDateString()} by {userHelper.renderUserEmail(users, createdImage.userId)}</p>
-                    <div className='form-group'>
-                      <label>
-                          Guess:
-                        <input id={createdImage._id}/>
-                      </label>
+              if(user && user.uid === createdImage.userId){
+                return (
+                  <div className='card' key={createdImage._id}>
+                    <div className='card-body'>
+                      <img src={createdImage.image} alt="Created Image" width="500" height="600"></img>
+                      <p>Created on {new Date(createdImage.dateFormed).toLocaleDateString()} by {userHelper.renderUserEmail(users, createdImage.userId)}</p>
+                      <div className='form-group'>
+                        <label>
+                            Guess:
+                          <input id={createdImage._id}/>
+                        </label>
+                      </div>
+                    <button
+                        className='button'
+                        onClick={() => {
+                          handleGuess(users, createdImage);
+                        }}
+                    >
+                        Guess
+                    </button>
+                    <button
+                        id="deleteButton"
+                        className='button'
+                        onClick={() => {
+                          handleOpenDeleteModal(createdImage);
+                        }}
+                      >
+                        Delete
+                    </button>
+                    <br />
+                    <br />
                     </div>
-                  <button
-                      className='button'
-                      onClick={() => {
-                        handleGuess(users, createdImage);
-                      }}
-                  >
-                      Guess
-                  </button>
-                  <button
-                      className='button'
-                      onClick={() => {
-                        handleOpenDeleteModal(createdImage);
-                      }}
-                  >
-                      Delete
-                  </button>
-                  <br />
                   </div>
-                </div>
-              );
+                );
+              }
+              else{
+                return (
+                  <div className='card' key={createdImage._id}>
+                    <div className='card-body'>
+                      <img src={createdImage.image} alt="Created Image" width="500" height="600"></img>
+                      <p>Created on {new Date(createdImage.dateFormed).toLocaleDateString()} by {userHelper.renderUserEmail(users, createdImage.userId)}</p>
+                      <div className='form-group'>
+                        <label>
+                            Guess:
+                          <input id={createdImage._id}/>
+                        </label>
+                      </div>
+                    <button
+                        className='button'
+                        onClick={() => {
+                          handleGuess(users, createdImage);
+                        }}
+                    >
+                        Guess
+                    </button>
+                    <br />
+                    <br />
+                    </div>
+                  </div>
+                );
+              }
             }
             else {
               return (
@@ -149,21 +180,6 @@ export default function ShowCreatedImages() {
               );
             }
         })}
-        {showEditModal && (
-          <EditCreatedImageModal
-            isOpen={showEditModal}
-            createdImage={editImage}
-            handleClose={handleCloseModals}
-          />
-        )}
-
-        {showDeleteModal && (
-          <DeleteCreatedImageModal
-            isOpen={showDeleteModal}
-            handleClose={handleCloseModals}
-            deleteImage={deleteImage}
-          />
-        )}
       </div>
     );
   }
