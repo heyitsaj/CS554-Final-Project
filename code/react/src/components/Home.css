@@ -19,3 +19,11 @@
     color: #0056b3; /* Darker blue on hover */
   }
   
+  .nav-link-user {
+    color: red;
+  }
+
+  .nav-link-user:hover {
+    color: red;
+    cursor: none
+  }

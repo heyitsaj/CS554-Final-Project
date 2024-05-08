@@ -77,6 +77,16 @@ function Navigation() {
         <Link className='nav-link' to='/AboutUs'>
           About Us
         </Link>
+        {user && 
+        user.email && 
+          <Link className='nav-link-user' // onClick={user ? undefined : (e) => {
+          // e.preventDefault();
+          // alert("You must have an account to access this feature.")
+        //}}
+        >
+          Current User: {user && user.email}
+        </Link>
+        }
       </nav>
     </div>
   );
