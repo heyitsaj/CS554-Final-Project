@@ -68,7 +68,7 @@ export default function ShowCreatedImages() {
             }
           });
         }
-
+        alert("CORRECT !");
         navigate('/Leaderboard');
       }
       else{
