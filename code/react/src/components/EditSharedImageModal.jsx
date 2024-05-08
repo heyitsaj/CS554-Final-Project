@@ -180,7 +180,7 @@ function EditSharedImageModal(props) {
             editSharedImage({
               variables: {
                 id: props.sharedImage._id,
-                userId: props.sharedImage.userId,
+                userId: props.user.uid,
                 image: fabricCanvas.current.toDataURL('image/JPEG;base64'),
                 description: description
               },

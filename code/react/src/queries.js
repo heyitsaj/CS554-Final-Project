@@ -72,6 +72,7 @@ const EDIT_SHARED_IMAGE = gql`
       description
       dateFormed
       comments
+      contributors
     }
   }
 `;

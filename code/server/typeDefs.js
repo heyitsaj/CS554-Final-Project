@@ -26,6 +26,7 @@ export const typeDefs = `#graphql
     dateFormed: Date!
     description: String
     comments: [String]
+    contributors: [String]
   }
   
   type CreatedImage {

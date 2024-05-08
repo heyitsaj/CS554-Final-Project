@@ -58,7 +58,8 @@ export const resolvers = {
         dateFormed: new Date(dateFormed),
         description: description,
         image: image,
-        comments: []
+        comments: [],
+        contributors: []
       };
 
       // add to mongo
@@ -84,11 +85,13 @@ export const resolvers = {
         if(args.description){
           description = args.description.trim();
         }
+
          
         let image = args.image.trim()
         newSharedImage.description = description;
         newSharedImage.image = image;
-
+        newSharedImage.contributors = [...newSharedImage.contributors,args.userId]
+        console.log(newSharedImage.contributors)
         // remove old album collection cache for updated image
         let response = await sharedImages.updateOne({_id: args._id}, {$set: newSharedImage});
         if(response){
