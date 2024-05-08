@@ -152,12 +152,11 @@ function EditSharedImageModal(props) {
             e.preventDefault();
 
             const description = document.getElementById('description').value;
-
             editSharedImage({
               variables: {
                 id: props.sharedImage._id,
                 userId: props.sharedImage.userId,
-                image: props.sharedImage.image,
+                image: fabricCanvas.current.toDataURL('image/JPEG;base64'),
                 description,
               },
             });
