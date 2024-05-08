@@ -1,11 +1,14 @@
 import {Link} from 'react-router-dom';
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import Add from './Add'
 import {useQuery, useMutation} from '@apollo/client';
 import queries from '../queries'
 import EditCreatedImageModal from './EditCreatedImageModal';
 import DeleteCreatedImageModal from './DeleteCreatedImageModal';
 import Navigation from './Navigation';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebase/firebase-src';
 import * as userHelper from "./UserHelpers.js";
 
 export default function ShowCreatedImages() {
@@ -13,8 +16,11 @@ export default function ShowCreatedImages() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [guess, setGuess] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
   const [editCreatedImage] = useMutation(queries.EDIT_CREATED_IMAGE);
+  const [updateUser] = useMutation(queries.UPDATE_USER);
 
   const [deleteImage, setDeleteImage] = useState(null);
 
@@ -22,42 +28,53 @@ export default function ShowCreatedImages() {
     fetchPolicy: 'cache-and-network'
   });
 
+  // Collect user data
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);  
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   const usersData = useQuery(queries.GET_USERS);
 
-  const handleGuess = (image) => {
+  const handleGuess = (users, image) => {
+    let guess = document.getElementById('guessInput').value;
     if(guess && guess.trim() !== ""){
       // check if guess matches image description
       if(guess === image.description) { // guessed correct, update database
-        editCreatedImage({
-          variables: {
-            id: image._id,
-            userId: image.userId,
-            image: image.image,
-            description: image.description,
-            solvedBy: "current solved user"
-          }
-        });
+        let user = userHelper.getUser(users, image.userId);
+        if(user){
+          editCreatedImage({
+            variables: {
+              id: image._id,
+              userId: image.userId,
+              image: image.image,
+              description: image.description,
+              solvedBy: user.email
+            }
+          });
+  
+          let newSolvedImages = user.numOfSolvedImages + 1;
+          updateUser({
+            variables: {
+              id: user._id,
+              numOfSolvedImages: newSolvedImages
+            }
+          });
+        }
 
-        updateLeaderboard({
-          variables: {
-            id: image._id,
-            userId: image.userId,
-            image: image.image,
-            description: image.description,
-            solvedBy: "current solved user"
-          }
-        });
+        navigate('/');
       }
       else{
         alert("INCORRECT GUESS");
       }
     }
-  };
-
-  const handleGuessUpdate = (event) => {
-    event.preventDefault();
-    const value = event.target.value;
-    setGuess(value);
   };
 
   const handleOpenDeleteModal = (image) => {
@@ -84,46 +101,53 @@ export default function ShowCreatedImages() {
         <br />
   
         {createdImages && createdImages.map((createdImage) => {
-          console.log(createdImages.length)
-            return (
-              <div className='card' key={createdImage._id}>
-                <div className='card-body'>
-                  <img src={createdImage.image} alt="Created Image" width="500" height="600"></img>
-                  <p>Created on {new Date(createdImage.dateFormed).toLocaleDateString()} by {userHelper.renderUserEmail(users, createdImage.userId)}</p>
-                  <p>Description: {createdImage.description}</p>
-                  {
-                    createdImage.solvedBy !== "none" ? 
-                      <div className='form-group'>
+            console.log(createdImages.length)
+            if(createdImage.solvedBy === "none"){
+              return (
+                <div className='card' key={createdImage._id}>
+                  <div className='card-body'>
+                    <img src={createdImage.image} alt="Created Image" width="500" height="600"></img>
+                    <p>Created on {new Date(createdImage.dateFormed).toLocaleDateString()} by {userHelper.renderUserEmail(users, createdImage.userId)}</p>
+                    <div className='form-group'>
                       <label>
-                        Guess:
-                        <input id='guessInput' onChange={handleGuessUpdate} />
+                          Guess:
+                        <input id='guessInput' />
                       </label>
-                      </div>
-                    :
-                      
-                    <p></p>
-                  }
-
+                    </div>
                   <button
-                    className='button'
-                    onClick={() => {
-                      handleGuess(createdImage);
-                    }}
+                      className='button'
+                      onClick={() => {
+                        handleGuess(users, createdImage);
+                      }}
                   >
-                    Guess
+                      Guess
                   </button>
                   <button
-                    className='button'
-                    onClick={() => {
-                      handleOpenDeleteModal(createdImage);
-                    }}
+                      className='button'
+                      onClick={() => {
+                        handleOpenDeleteModal(createdImage);
+                      }}
                   >
-                    Delete
+                      Delete
                   </button>
                   <br />
+                  </div>
                 </div>
-              </div>
-            );
+              );
+            }
+            else {
+              return (
+                <div className='card' key={createdImage._id}>
+                  <div className='card-body'>
+                    <img src={createdImage.image} alt="Created Image" width="500" height="600"></img>
+                    <p>Created on {new Date(createdImage.dateFormed).toLocaleDateString()} by {userHelper.renderUserEmail(users, createdImage.userId)}</p>
+                    <p>Description: {createdImage.description}</p>
+                    <p>Solved by: {createdImage.solvedBy}</p>
+                    <br />
+                  </div>
+                </div>
+              );
+            }
         })}
         {showEditModal && (
           <EditCreatedImageModal
