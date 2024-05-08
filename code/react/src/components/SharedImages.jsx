@@ -80,7 +80,7 @@ export default function SharedImages() {
               <p>Created on {new Date(sharedImage.dateFormed).toLocaleDateString()} at {new Date(sharedImage.dateFormed).getHours().toString()}:{new Date(sharedImage.dateFormed).getMinutes().toString()} by {userHelper.renderUserEmail(users, sharedImage.userId)}</p>
               <p>Description: {sharedImage.description}</p>
               {user && <button className='button' onClick={() => handleOpenEditModal(sharedImage)}>Edit</button> }
-              {user && <button className='button' onClick={() => handleOpenDeleteModal(sharedImage)}>Delete</button> }
+              {user && user.uid === sharedImage.userId ? <button className='button' onClick={() => handleOpenDeleteModal(sharedImage)}>Delete</button> : <></>}
             </div>
           </div>
         ))}
