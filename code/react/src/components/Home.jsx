@@ -49,7 +49,12 @@ export default function Home() {
         Sign Up/Login
       </button>}
       <Navigation/>
+      <div className = "imageDisplay">
       <img src='/Pictogram.png' alt='Pictogram Logo' style={{display: 'block', margin: '20px auto', width: '400px', height: 'auto', paddingBottom: 20}}/>
+      <img src='/picto1.png' alt='Pictogram Knight' style={{display: 'block', margin: '20px auto', width: '400px', height: 'auto', paddingBottom: 20}}/>
+      <img src='/picto2.png' alt='Pictogram Cat' style={{display: 'block', margin: '20px auto', width: '400px', height: 'auto', paddingBottom: 20}}/>
+      <img src='/picto3.png' alt='Pictogram HiFive' style={{display: 'block', margin: '20px auto', width: '400px', height: 'auto', paddingBottom: 20}}/>
+      </div>
     </div>
   );
 }

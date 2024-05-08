@@ -10,6 +10,7 @@ import Navigation from './Navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase/firebase-src';
 import * as userHelper from "./UserHelpers.js";
+import './ShowCreatedImages.css'
 
 export default function ShowCreatedImages() {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -109,7 +110,7 @@ export default function ShowCreatedImages() {
     }
     const users = usersData.data.users;
     return (
-      <div>
+      <div className="createdImagesPage">
         <Navigation />    
         <h1>Welcome to the Created Images Page!</h1>
         <h3>Here you can guess drawings!</h3>
