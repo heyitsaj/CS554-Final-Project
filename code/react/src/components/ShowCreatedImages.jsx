@@ -145,22 +145,25 @@ export default function ShowCreatedImages() {
                     <div className='card-body'>
                       <img src={createdImage.image} alt="Created Image" width="500" height="600"></img>
                       <p>Created on {new Date(createdImage.dateFormed).toLocaleDateString()} by {userHelper.renderUserEmail(users, createdImage.userId)}</p>
-                      <div className='form-group'>
-                        <label>
+                      {user && 
+                        <div className='form-group'>
+                          <label>
                             Guess:
-                          <input id={createdImage._id}/>
-                        </label>
-                      </div>
-                    <button
-                        className='button'
-                        onClick={() => {
-                          handleGuess(users, createdImage);
-                        }}
-                    >
+                            <input id={createdImage._id}/>
+                          </label>
+                        </div>
+                      }
+                      {user && 
+                        <button
+                          className='button'
+                          onClick={() => {
+                            handleGuess(users, createdImage);
+                          }}
+                        >
                         Guess
-                    </button>
-                    <br />
-                    <br />
+                      </button>}
+                      <br />
+                      <br />
                     </div>
                   </div>
                 );
