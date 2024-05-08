@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import queries from '../queries';
 import Add from './Add';
@@ -17,7 +16,7 @@ export default function SharedImages() {
   const [editImage, setEditImage] = useState(null);
   const [deleteImage, setDeleteImage] = useState(null);
   const [user, setUser] = useState(null);
-  const navigate = useNavigate();
+  const [sortOrder, setSortOrder] = useState('descending');
 
   // Main query for shared images
   const { loading, error, data } = useQuery(queries.GET_SHARED_IMAGES);
@@ -64,11 +63,10 @@ export default function SharedImages() {
 
   if(data && usersData && usersData.data && usersData.data.users){
     const sharedImages = [...data.sharedImages];
-
     sharedImages.sort((a, b) => {
       const dateA = new Date(a.dateFormed);
       const dateB = new Date(b.dateFormed);
-      return dateB - dateA; // Sorting in descending order (newest first)
+      return sortOrder === 'ascending' ? dateA - dateB : dateB - dateA;
     });
     const users = usersData.data.users;
     return (
@@ -76,7 +74,19 @@ export default function SharedImages() {
         <Navigation />
         <h1>Welcome to the Shared Images Page!</h1>
         <h3>Here you can upload images and edit images if you are signed up and logged in.</h3>
+        <div>
+          <label htmlFor='sortOrder'>Sort by:</label>
+          <select
+            id='sortOrder'
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+          >
+            <option value='ascending'>Oldest to Newest</option>
+            <option value='descending'>Newest to Oldest</option>
+          </select>
+        </div>
         {user ? <button className='button' onClick={() => setShowAddForm(!showAddForm)}>Upload Shared Image</button> : <h3>You must be signed in to upload or edit images!</h3>}
+
         {user && showAddForm && <Add type='sharedImage' closeAddFormState={closeAddFormState} />}
 
         <br /><br />

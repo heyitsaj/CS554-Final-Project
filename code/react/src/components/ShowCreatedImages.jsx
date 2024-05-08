@@ -17,6 +17,7 @@ export default function ShowCreatedImages() {
   const [guess, setGuess] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [user, setUser] = useState(null);
+  const [sortOrder, setSortOrder] = useState('descending');
   const navigate = useNavigate();
 
   const [editCreatedImage] = useMutation(queries.EDIT_CREATED_IMAGE);
@@ -100,7 +101,7 @@ export default function ShowCreatedImages() {
     createdImages.sort((a, b) => {
       const dateA = new Date(a.dateFormed);
       const dateB = new Date(b.dateFormed);
-      return dateB - dateA; // Sorting in descending order (newest first)
+      return sortOrder === 'ascending' ? dateA - dateB : dateB - dateA;
     });
     const users = usersData.data.users;
     return (
@@ -108,7 +109,17 @@ export default function ShowCreatedImages() {
         <Navigation />    
         <h1>Welcome to the Created Images Page!</h1>
         <h3>Here you can guess drawings!</h3>
-
+        <div>
+          <label htmlFor='sortOrder'>Sort by:</label>
+          <select
+            id='sortOrder'
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+          >
+            <option value='ascending'>Oldest to Newest</option>
+            <option value='descending'>Newest to Oldest</option>
+          </select>
+        </div>
         <br />
         <br />
   
