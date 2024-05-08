@@ -59,19 +59,19 @@ const ADD_SHARED_IMAGE = gql`
     }
 `;
 const EDIT_SHARED_IMAGE = gql`
-  mutation changeSharedImage(
-    $id: String!
-    $userId: String!
-    $image: String!
-    $description: String
-  ) {
+  mutation EditSharedImage($id: String!, $userId: String!, $image: String!, $description: String) {
     editSharedImage(
-      _id: $id
-      userId: $userId
-      image: $image
+      _id: $id,
+      userId: $userId,
+      image: $image,
       description: $description
     ) {
       _id
+      userId
+      image
+      description
+      dateFormed
+      comments
     }
   }
 `;

@@ -30,11 +30,17 @@ function EditSharedImageModal(props) {
         query: queries.GET_SHARED_IMAGES,
       });
       // Update the specific image in the cache
-      const updatedData = existingData.sharedImages.map((image) =>
-        {
-          image._id === editSharedImage._id ? editSharedImage : image
+      const updatedData = existingData.sharedImages.map((image) => {
+        if (image._id === editSharedImage._id) {
+          console.log(editSharedImage)
+          return {
+            ...image, // Existing image data
+            ...editSharedImage, // New data from the mutation response
+          };
         }
-      );
+        return image;
+      });
+      console.log(updatedData)
       // Write the updated data back to the cache
       cache.writeQuery({
         query: queries.GET_SHARED_IMAGES,
@@ -176,7 +182,7 @@ function EditSharedImageModal(props) {
                 id: props.sharedImage._id,
                 userId: props.sharedImage.userId,
                 image: fabricCanvas.current.toDataURL('image/JPEG;base64'),
-                description,
+                description: description
               },
             });
 

@@ -80,7 +80,11 @@ export const resolvers = {
       console.log(newSharedImage); 
       console.log(args)
       if (newSharedImage) {
-        let description = args.description.trim();
+        let description = ""
+        if(args.description){
+          description = args.description.trim();
+        }
+         
         let image = args.image.trim()
         newSharedImage.description = description;
         newSharedImage.image = image;
