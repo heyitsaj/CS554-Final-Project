@@ -62,7 +62,7 @@ export default function SharedImages() {
   // if (error || userError) return <div>Error: {error ? error.message : userError.message}</div>;
   // if (!data) return <div>No data found.</div>;
 
-  if(data && usersData && usersData.data && usersData.data.users){
+  if(data && usersData && usersData.data && usersData.data.users && user){
     const sharedImages = [...data.sharedImages];
     sharedImages.sort((a, b) => {
       const dateA = new Date(a.dateFormed);
