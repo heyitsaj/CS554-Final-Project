@@ -97,7 +97,7 @@ export default function ShowCreatedImages() {
     setShowDeleteModal(false);
   };
   
-  if(data && usersData && usersData.data && usersData.data.users){
+  if(data && usersData && usersData.data && usersData.data.users && user){
     let createdImages = [...data.createdImages];
 
     createdImages.sort((a, b) => {
