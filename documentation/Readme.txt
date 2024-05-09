@@ -12,5 +12,4 @@ To launch pictogram site, please perform the following steps:
    $ git clone https://github.com/heyitsaj/CS554-Final-Project.git
 4. Navigate to <clone directory>/CS554-Final-Project/code/scripts
 5. Run script
-script will
-  launch server, react
+   $ ./LaunchSite.sh
