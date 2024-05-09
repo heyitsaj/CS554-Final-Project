@@ -46,31 +46,31 @@ function Navigation() {
         Sign Up/Login
       </button>}
       <nav className='nav-bar'>
-        <Link className='nav-link' to='/SharedImages' // onClick={user ? undefined : (e) => {
-          // e.preventDefault();
-          // alert("You must have an account to access this feature.")
-        //}}
+        <Link className='nav-link' to='/SharedImages' onClick={user ? undefined : (e) => {
+          e.preventDefault();
+          alert("You must have an account to access this feature.")
+        }}
         >
           Image Sharing
         </Link>
-        <Link className='nav-link' to='/Create' // onClick={user ? undefined : (e) => {
-          // e.preventDefault();
-          // alert("You must have an account to access this feature.")
-        //}}
+        <Link className='nav-link' to='/Create' onClick={user ? undefined : (e) => {
+          e.preventDefault();
+          alert("You must have an account to access this feature.")
+        }}
         >
           Image Creation
         </Link>
-        <Link className='nav-link' to='/ShowCreatedImages' // onClick={user ? undefined : (e) => {
-          // e.preventDefault();
-          // alert("You must have an account to access this feature.")
-        //}}
+        <Link className='nav-link' to='/ShowCreatedImages' onClick={user ? undefined : (e) => {
+          e.preventDefault();
+          alert("You must have an account to access this feature.")
+        }}
         >
           Created Images
         </Link>
-        <Link className='nav-link' to='/Leaderboard' // onClick={user ? undefined : (e) => {
-          //e.preventDefault();
-          //alert("You must have an account to access this feature.")
-        //}}
+        <Link className='nav-link' to='/Leaderboard' onClick={user ? undefined : (e) => {
+          e.preventDefault();
+          alert("You must have an account to access this feature.")
+        }}
         >
           Leaderboard
         </Link>
@@ -79,11 +79,7 @@ function Navigation() {
         </Link>
         {user && 
         user.email && 
-          <Link className='nav-link-user' // onClick={user ? undefined : (e) => {
-          // e.preventDefault();
-          // alert("You must have an account to access this feature.")
-        //}}
-        >
+          <Link className='nav-link-user'>
           Current User: {user && user.email}
         </Link>
         }
