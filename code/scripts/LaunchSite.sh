@@ -11,7 +11,8 @@ echo "creating docker image and container, please note this take a few minutes..
 
 # launch docker container
 #echo "loading docker container"
-#cd ../react/
+cd ../react/
+docker build -t tagname:tagtag .
 #docker load --input client.tar
 
 # run dock compose to generate and launch conainer

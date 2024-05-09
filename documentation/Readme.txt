@@ -13,3 +13,13 @@ To launch pictogram site, please perform the following steps:
 4. Navigate to <clone directory>/CS554-Final-Project/code/scripts
 5. Run script
    $ ./LaunchSite.sh
+
+* Note: If script fails, please manually run site by:
+
+
+1. Navigate to <clone directory>/CS554-Final-Project/code/server and run:
+	$ npm i
+	$ npm start &
+2. Navigating to <clone directory>/CS554-Final-Project/code/react and run:
+	$ npm i
+	$ npm run dev &
