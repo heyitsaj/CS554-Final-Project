@@ -1,0 +1,14 @@
+services:
+    vite:
+        image: vitename:vitetag
+        restart: always
+        ports:
+          - "5173:5173"
+        volumes:
+            - ./client:/client
+            - /client/node_modules
+        networks:
+            - webappnetwork
+networks:
+    webappnetwork:
+        driver: host
